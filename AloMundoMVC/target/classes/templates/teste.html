@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Teste Page</title>
+</head>
+<body>
+    <h1>List of Usuarios</h1>
+    <ul>
+        <!-- Loop through the list of usuarios and display their names and emails -->
+        <li th:each="usuario : ${usuarios}">
+            <p th:text="${usuario.username}"></p>
+            <p th:text="${usuario.email}"></p>
+        </li>
+    </ul>
+</body>
+</html>

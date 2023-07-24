@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Comercial Partners</title>
+</head>
+<body>
+    <h1>Comercial Partners</h1>
+    <table>
+        <tr th:each="username : ${usernames}">
+            <td th:text="${username}"></td>
+        </tr>
+    </table>
+</body>
+</html>

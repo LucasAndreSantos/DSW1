@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>User administration</title>
+</head>
+<script>
+  function redirectToReadLocadora() {
+      var form = document.getElementById("userForm");
+      form.action = "/readlocadora";
+      form.submit();
+  }
+</script>
+<body>
+  <h1>User administration</h1>
+
+  <form th:action="@{/user}" method="get">
+    <label for="usuariolocadora">Company:</label>
+    <select id="usuariolocadora" name="usuariolocadora">
+      <!-- Options for company (usuariolocadora) -->
+      <!-- Use Thymeleaf to iterate over the list of commercial partners -->
+      <option th:each="partner : ${commercialpartners}" th:value="${partner}" th:text="${partner}"></option>
+    </select>
+    <br>
+    <button type="submit" formaction="readlocadora">Consult</button>
+    <button type="submit" formaction="registrarlocadora" name="action" value="createLocadora">Create</button>
+    <button type="submit" name="action" value="updateLocadora">Update</button>
+    <button type="submit" name="action" value="deleteLocadora">Delete</button>
+    <br><br>
+    <label for="usuariocliente">Client:</label>
+    <select id="usuariocliente" name="usuariocliente">
+      <!-- Options for client (usuariocliente) -->
+      <!-- Use Thymeleaf to iterate over the list of all clients -->
+      <option th:each="client : ${allclients}" th:value="${client}" th:text="${client}"></option>
+    </select>
+    <br>
+    <button type="submit" name="username" th:value="${username}">Consult</button>
+    <button type="submit" formaction="registrarcliente" name="action" value="createCliente">Create</button>
+    <button type="submit" name="action" value="updateCliente">Update</button>
+    <button type="submit" name="action" value="deleteCliente">Delete</button>
+  </form>
+
+  <div class="top-right">
+    <form action="admPT.jsp">
+      <button type="submit">Português (BR)</button>
+    </form>
+  </div>
+  <form action="index.jsp">
+    <button type="submit">Go back</button>
+  </form>
+</body>
+</html>

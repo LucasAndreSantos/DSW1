@@ -1,0 +1,14 @@
+/home/paladino/Desktop/AloMundoMVC/src/main/java/br/ufscar/dc/dsw/controller/AloMundoController.java
+/home/paladino/Desktop/AloMundoMVC/src/main/java/br/ufscar/dc/dsw/repository/LocacoesRepository.java
+/home/paladino/Desktop/AloMundoMVC/src/main/java/br/ufscar/dc/dsw/repository/UsuarioClienteRepository.java
+/home/paladino/Desktop/AloMundoMVC/src/main/java/br/ufscar/dc/dsw/AloMundoMvcApplication.java
+/home/paladino/Desktop/AloMundoMVC/src/main/java/br/ufscar/dc/dsw/model/UsuarioCliente.java
+/home/paladino/Desktop/AloMundoMVC/src/main/java/br/ufscar/dc/dsw/controller/LocacoesController.java
+/home/paladino/Desktop/AloMundoMVC/src/main/java/br/ufscar/dc/dsw/repository/UsuarioLocadoraRepository.java
+/home/paladino/Desktop/AloMundoMVC/src/main/java/br/ufscar/dc/dsw/model/UsuarioGeral.java
+/home/paladino/Desktop/AloMundoMVC/src/main/java/br/ufscar/dc/dsw/repository/UsuarioGeralRepository.java
+/home/paladino/Desktop/AloMundoMVC/src/main/java/br/ufscar/dc/dsw/controller/UsuarioGeralController.java
+/home/paladino/Desktop/AloMundoMVC/src/main/java/br/ufscar/dc/dsw/controller/UsuarioLocadoraController.java
+/home/paladino/Desktop/AloMundoMVC/src/main/java/br/ufscar/dc/dsw/model/Locacoes.java
+/home/paladino/Desktop/AloMundoMVC/src/main/java/br/ufscar/dc/dsw/controller/UsuarioClienteController.java
+/home/paladino/Desktop/AloMundoMVC/src/main/java/br/ufscar/dc/dsw/model/UsuarioLocadora.java

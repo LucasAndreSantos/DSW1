@@ -1,0 +1,14 @@
+br/ufscar/dc/dsw/model/UsuarioLocadora.class
+br/ufscar/dc/dsw/repository/UsuarioClienteRepository.class
+br/ufscar/dc/dsw/model/UsuarioGeral.class
+br/ufscar/dc/dsw/controller/UsuarioClienteController.class
+br/ufscar/dc/dsw/repository/LocacoesRepository.class
+br/ufscar/dc/dsw/model/Locacoes.class
+br/ufscar/dc/dsw/AloMundoMvcApplication.class
+br/ufscar/dc/dsw/controller/UsuarioGeralController.class
+br/ufscar/dc/dsw/model/UsuarioCliente.class
+br/ufscar/dc/dsw/repository/UsuarioGeralRepository.class
+br/ufscar/dc/dsw/controller/LocacoesController.class
+br/ufscar/dc/dsw/controller/UsuarioLocadoraController.class
+br/ufscar/dc/dsw/controller/AloMundoController.class
+br/ufscar/dc/dsw/repository/UsuarioLocadoraRepository.class
