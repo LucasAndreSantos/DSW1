@@ -23,8 +23,8 @@
     <br>
     <button type="submit" formaction="readlocadora">Consult</button>
     <button type="submit" formaction="registrarlocadora" name="action" value="createLocadora">Create</button>
-    <button type="submit" name="action" value="updateLocadora">Update</button>
-    <button type="submit" name="action" value="deleteLocadora">Delete</button>
+    <button type="submit" name="action" formaction="editarlocadora" value="updateLocadora">Update</button>
+    <button type="submit" name="action" formaction="deleteLocadora" value="deleteLocadora">Delete</button>
     <br><br>
     <label for="usuariocliente">Client:</label>
     <select id="usuariocliente" name="usuariocliente">
@@ -35,8 +35,8 @@
     <br>
     <button type="submit" name="username" th:value="${username}">Consult</button>
     <button type="submit" formaction="registrarcliente" name="action" value="createCliente">Create</button>
-    <button type="submit" name="action" value="updateCliente">Update</button>
-    <button type="submit" name="action" value="deleteCliente">Delete</button>
+    <button type="submit" name="action" formaction="editarcliente" value="updateCliente">Update</button>
+    <button type="submit" name="action" formaction="deletecliente" value="deleteCliente">Delete</button>
   </form>
 
   <div class="top-right">

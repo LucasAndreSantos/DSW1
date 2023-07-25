@@ -3,6 +3,7 @@ br/ufscar/dc/dsw/repository/UsuarioClienteRepository.class
 br/ufscar/dc/dsw/model/UsuarioGeral.class
 br/ufscar/dc/dsw/controller/UsuarioClienteController.class
 br/ufscar/dc/dsw/repository/LocacoesRepository.class
+br/ufscar/dc/dsw/controller/LoginController.class
 br/ufscar/dc/dsw/model/Locacoes.class
 br/ufscar/dc/dsw/AloMundoMvcApplication.class
 br/ufscar/dc/dsw/controller/UsuarioGeralController.class

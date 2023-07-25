@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import br.ufscar.dc.dsw.model.UsuarioGeral;
 import br.ufscar.dc.dsw.repository.UsuarioGeralRepository;
+import javax.servlet.http.HttpSession;
 
 @Controller
 public class UsuarioGeralController {
@@ -21,13 +22,19 @@ public class UsuarioGeralController {
     }
 
     @GetMapping("/adm")
-    public String adm(Model model) {
-        List<String> commercialpartners = usuarioGeralRepository.comercialpartners();
-        List<String> allclients = usuarioGeralRepository.allclients();
+    public String adm(Model model,HttpSession session) {
+        if (userSession == null) {
+            // If not authenticated, redirect to the login page
+            return "redirect:/loginpage";
+        }
+        else{
+            List<String> commercialpartners = usuarioGeralRepository.comercialpartners();
+            List<String> allclients = usuarioGeralRepository.allclients();
 
-        model.addAttribute("commercialpartners", commercialpartners);
-        model.addAttribute("allclients", allclients);
-        return "adm";
+            model.addAttribute("commercialpartners", commercialpartners);
+            model.addAttribute("allclients", allclients);
+            return "adm";
+        }    
     }
 
 
