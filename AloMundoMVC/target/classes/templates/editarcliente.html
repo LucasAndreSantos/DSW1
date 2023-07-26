@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Client Update</title>
+</head>
+<body>
+    <h1>Client Update</h1>
+    <form action="UpdateCliente" method="post" th:object="${usuarioCliente}">
+        <!-- Username -->
+        <label for="username">Username:</label>
+        <input type="text" name="username" id="username" th:value="${usuarioGeral.username}" required><br>
+
+        <!-- Document (CPF) -->
+        <label for="cpf_cnpj">Document:</label>
+        <input type="text" name="cpf_cnpj" id="cpf_cnpj" th:value="${usuarioGeral.cpfCnpj}" required readonly><br>
+
+        <!-- Email -->
+        <label for="email">Email:</label>
+        <input type="email" name="email" id="email" th:value="${usuarioGeral.email}" required><br>
+
+        <!-- Birthday -->
+        <label for="datanascimento">Birthday:</label>
+        <input type="date" name="datanascimento" id="datanascimento" th:value="${usuarioCliente.dataDeNascimento}" required><br>
+
+        <!-- Phone -->
+        <label for="telefone">Phone:</label>
+        <input type="number" name="telefone" id="telefone" th:value="${usuarioCliente.telefone}" required><br>
+
+        <!-- Gender -->
+        <label for="sexo">Gender:</label>
+        <select name="sexo" id="sexo" required>
+            <option value="Masculino" th:selected="${usuarioCliente.sexo == 'Masculino'}">Masculine</option>
+            <option value="Feminino" th:selected="${usuarioCliente.sexo == 'Feminino'}">Feminine</option>
+        </select><br>
+
+        <!-- Hierarchy -->
+        <label for="hierarquia">Hierarchy:</label>
+        <select name="hierarquia" id="hierarquia" required>
+            <option value="1" th:selected="${usuarioGeral.isHierarquia() == 1}">Admin</option>
+            <option value="0" th:selected="${usuarioGeral.isHierarquia() == 0}">User</option>
+        </select><br>
+
+        <!-- Password -->
+        <label for="senha">Password:</label>
+        <input type="password" name="senha" id="senha" required><br>
+
+        <button type="submit">Update</button>
+    </form>
+</body>
+</html>

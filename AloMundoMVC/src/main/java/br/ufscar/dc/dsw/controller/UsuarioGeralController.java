@@ -23,17 +23,23 @@ public class UsuarioGeralController {
 
     @GetMapping("/adm")
     public String adm(Model model,HttpSession session) {
-        if (userSession == null) {
-            // If not authenticated, redirect to the login page
-            return "redirect:/loginpage";
+        if (session.getAttribute("user") == null) {
+                model.addAttribute("message", "You are not logged in.");
+                return "login";
         }
         else{
-            List<String> commercialpartners = usuarioGeralRepository.comercialpartners();
-            List<String> allclients = usuarioGeralRepository.allclients();
+            if ((Integer) session.getAttribute("hierarquia") == 1) {
+                List<String> commercialpartners = usuarioGeralRepository.comercialpartners();
+                List<String> allclients = usuarioGeralRepository.allclients();
 
-            model.addAttribute("commercialpartners", commercialpartners);
-            model.addAttribute("allclients", allclients);
-            return "adm";
+                model.addAttribute("commercialpartners", commercialpartners);
+                model.addAttribute("allclients", allclients);
+                return "adm";
+            } else {
+                model.addAttribute("message", "You are logged in as a user.");
+                return "login";
+                
+            }
         }    
     }
 

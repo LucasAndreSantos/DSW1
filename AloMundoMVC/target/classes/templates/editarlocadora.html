@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Client Update</title>
+</head>
+<body>
+    <h1>Client Update</h1>
+    <form action="UpdateLocadora" method="post" th:object="${usuarioCliente}">
+        <!-- Username -->
+        <label for="username">Username:</label>
+        <input type="text" name="username" id="username" th:value="${usuarioGeral.username}" required><br>
+
+        <!-- Document (CPF) -->
+        <label for="cpf_cnpj">Document:</label>
+        <input type="text" name="cpf_cnpj" id="cpf_cnpj" th:value="${usuarioGeral.cpfCnpj}" required readonly><br>
+
+        <!-- Email -->
+        <label for="email">Email:</label>
+        <input type="email" name="email" id="email" th:value="${usuarioGeral.email}" required><br>
+
+        <!-- City -->
+        <label for="cidade">City:</label>
+        <input type="text" name="cidade" id="cidade" th:value="${usuarioLocadora.cidade}" required><br>
+
+
+        <!-- Password -->
+        <label for="senha">Password:</label>
+        <input type="password" name="senha" id="senha" required><br>
+
+        <button type="submit">Update</button>
+    </form>
+</body>
+</html>

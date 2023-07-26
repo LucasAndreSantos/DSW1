@@ -16,6 +16,7 @@ import br.ufscar.dc.dsw.model.Locacoes;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import org.springframework.dao.DataIntegrityViolationException;
+import br.ufscar.dc.dsw.service.impl.UsuarioClienteService;
 
 
 
@@ -30,7 +31,9 @@ public class UsuarioClienteController {
 
     @Autowired
     private LocacoesRepository locacoesRepository;
-        
+
+    @Autowired
+    private UsuarioClienteService service;    
 
     @GetMapping("/testeusuariocliente")
     public String getAllUsuarios(Model model) {
@@ -61,7 +64,7 @@ public class UsuarioClienteController {
     public String getUserInfo(@RequestParam String usuariocliente, Model model) {
         // Fetch the user by username from the repository
         UsuarioGeral user = usuarioGeralRepository.findByUsername(usuariocliente);
-        UsuarioCliente cliente = usuarioClienteRepository.findByCpf(user.getCpfCnpj());
+        UsuarioCliente cliente = service.buscarPorCpf(user.getCpfCnpj());
         model.addAttribute("user", user);
         model.addAttribute("cliente", cliente);
         return "userinfo"; // Return the name of the Thymeleaf template (userinfo.html)
