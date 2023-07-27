@@ -26,5 +26,8 @@ public interface UsuarioGeralRepository extends JpaRepository<UsuarioGeral, Long
     @Query("SELECT u FROM UsuarioGeral u WHERE u.cpf_cnpj = :cpfCnpj")
     UsuarioGeral findByCpfCnpj(@Param("cpfCnpj") String cpfCnpj);
 
+    @Query("SELECT DISTINCT u FROM UsuarioGeral u JOIN UsuarioLocadora l ON u.cpf_cnpj = l.cnpj")
+    List<UsuarioGeral> findByCnpjInUsuarioLocadora();
+
 
 }

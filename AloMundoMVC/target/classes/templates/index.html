@@ -1,14 +1,46 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Alô Mundo</title>
+  <title>Bicycle Rental</title>
+  <style>
+    .welcome {
+      text-align: right;
+    }
+
+    .left-link {
+      float: left;
+      margin-right: 20px;
+    }
+
+    .top-right {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+    }
+  </style>
 </head>
-
 <body>
-    <h1>Alô Mundo</h1>
-
-    <h4><span th:text="${date}">16 Março 2020</span></h4>
+  <h1>Bicycle Rental</h1>
+  <div class="welcome" th:if="${user != null}">
+    <h2>Welcome <span th:text="${user}"></span></h2>
+    <a href="adm">User Administration</a>
+    <br>
+    <a href="ListarAluguel.jsp">My Rentals</a>
+  </div>
+  <div class="welcome" th:unless="${user != null}">
+    <p>You need to <a href="loginpage">log in</a> to perform certain actions.</p>
+  </div>
+  <div class="left-link">
+    <a href="">Rent Bicycle</a>
+    <br>
+    <a href="comercialpartners">Our Business Partners</a>
+    <br>
+    <a href="buscarcidades">Find a Shop in Your City!</a>
+  </div>
+  <div class="top-right">
+    <form action="indexPT.jsp">
+      <button type="submit">Português (BR)</button>
+    </form>
+  </div>
 </body>
-
 </html>
