@@ -6,7 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import br.ufscar.dc.dsw.model.UsuarioCliente;
 
-import br.ufscar.dc.dsw.repository.UsuarioClienteRepository;
+import br.ufscar.dc.dsw.repository.UsuarioClienteRepository; //TIVE QUE DEIXAR POR CONTA DO FINDALL() LINHA 49
 import br.ufscar.dc.dsw.repository.LocacoesRepository; //PRECISO CRIAR O SERVICE DESSE AINDA
 //import br.ufscar.dc.dsw.repository.UsuarioGeralRepository;
 import br.ufscar.dc.dsw.service.spec.IUsuarioClienteService;
