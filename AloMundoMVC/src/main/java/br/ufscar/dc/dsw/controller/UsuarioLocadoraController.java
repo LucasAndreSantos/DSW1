@@ -9,11 +9,12 @@ import br.ufscar.dc.dsw.model.UsuarioLocadora;
 import br.ufscar.dc.dsw.model.UsuarioGeral;
 import br.ufscar.dc.dsw.model.Locacoes;
 
-//import br.ufscar.dc.dsw.repository.UsuarioLocadoraRepository;
+import br.ufscar.dc.dsw.repository.UsuarioLocadoraRepository; //TIVE QUE DEIXAR POR CONTA DO FINDALL() LINHA 40
 //import br.ufscar.dc.dsw.repository.UsuarioGeralRepository;
-import br.ufscar.dc.dsw.repository.LocacoesRepository; //PRECISO CRIAR O SERVICE DESSE AINDA
 import br.ufscar.dc.dsw.service.spec.IUsuarioLocadoraService;
 import br.ufscar.dc.dsw.service.spec.IUsuarioGeralService;
+
+import br.ufscar.dc.dsw.repository.LocacoesRepository; //PRECISO CRIAR O SERVICE DESSE AINDA
 
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
@@ -23,7 +24,9 @@ public class UsuarioLocadoraController {
 
     @Autowired
     private IUsuarioLocadoraService usuarioLocadoraService;
-    //private UsuarioLocadoraRepository usuarioLocadoraRepository;
+
+    @Autowired
+    private UsuarioLocadoraRepository usuarioLocadoraRepository; //TIVE QUE DEIXAR POR CONTA DO FINDALL() LINHA 40
 
     @Autowired 
     private IUsuarioGeralService usuarioGeralService;

@@ -6,8 +6,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import br.ufscar.dc.dsw.model.UsuarioCliente;
 
-//import br.ufscar.dc.dsw.repository.UsuarioClienteRepository;
-import br.ufscar.dc.dsw.repository.LocacoesRepository;
+import br.ufscar.dc.dsw.repository.UsuarioClienteRepository;
+import br.ufscar.dc.dsw.repository.LocacoesRepository; //PRECISO CRIAR O SERVICE DESSE AINDA
 //import br.ufscar.dc.dsw.repository.UsuarioGeralRepository;
 import br.ufscar.dc.dsw.service.spec.IUsuarioClienteService;
 import br.ufscar.dc.dsw.service.spec.IUsuarioGeralService;
@@ -30,7 +30,9 @@ public class UsuarioClienteController {
 
     @Autowired
     private IUsuarioClienteService usuarioClienteService;
-    //private UsuarioClienteRepository usuarioClienteRepository;
+
+    @Autowired
+    private UsuarioClienteRepository usuarioClienteRepository; //TIVE QUE DEIXAR POR CONTA DO FINDALL() LINHA 49
 
     @Autowired
     private IUsuarioGeralService usuarioGeralService;
@@ -44,8 +46,7 @@ public class UsuarioClienteController {
 
     @GetMapping("/testeusuariocliente")
     public String getAllUsuarios(Model model) {
-        //NÃO COLOQUEI DO SERVICE PORQUE PRECISA TER O FINDALL NO DAO DE CLIENTE
-        List<UsuarioCliente> usuarios = usuarioClienteRepository.findAll();
+        List<UsuarioCliente> usuarios = usuarioClienteRepository.findAll(); //NÃO COLOQUEI DO SERVICE PORQUE PRECISA TER O FINDALL NO DAO DE CLIENTE
         model.addAttribute("usuarios", usuarios);
         return "testecliente";
     }
