@@ -17,6 +17,14 @@ public class UsuarioLocadoraService implements IUsuarioLocadoraService {
     @Autowired
     private UsuarioLocadoraRepository dao;
 
+    public void salvar(UsuarioLocadora locadora) {
+		dao.save(locadora);
+	}
+
+	public void excluir(UsuarioLocadora locadora) {
+		dao.delete(locadora);
+	}
+
     @Transactional(readOnly = true)
     public List<String> buscarCidades() {
         return dao.findDistinctCidades();

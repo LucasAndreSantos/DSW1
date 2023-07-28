@@ -5,8 +5,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import br.ufscar.dc.dsw.model.Locacoes;
-import br.ufscar.dc.dsw.repository.LocacoesRepository;
-import br.ufscar.dc.dsw.repository.UsuarioGeralRepository;
+import br.ufscar.dc.dsw.repository.LocacoesRepository; //PRECISO CRIAR O SERVICE DESSE AINDA
+
+//import br.ufscar.dc.dsw.repository.UsuarioGeralRepository;
+import br.ufscar.dc.dsw.service.spec.IUsuarioGeralService;
+
 import javax.servlet.http.HttpSession;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,7 +20,8 @@ import br.ufscar.dc.dsw.model.UsuarioGeral;
 public class LoginController {
 
     @Autowired
-    private UsuarioGeralRepository usuarioGeralRepository;
+    private IUsuarioGeralService usuarioGeralService;
+    //private UsuarioGeralRepository usuarioGeralRepository;
 
     @GetMapping("/loginpage")
     public String getAllUsuarios(Model model) {
@@ -30,7 +34,8 @@ public class LoginController {
                         HttpSession session) {
 
         // Find the user by username from the repository
-        UsuarioGeral user = usuarioGeralRepository.findByUsername(username);
+        //UsuarioGeral user = usuarioGeralRepository.findByUsername(username);
+        UsuarioGeral user = usuarioGeralService.buscarPorNome(username);
 
         if (user != null && user.getSenha().equals(password)) {
             // Authentication successful, store the user in the session

@@ -21,6 +21,15 @@ public class UsuarioGeralService implements IUsuarioGeralService {
         dao.updateUsuarioGeralData(cpfCnpj, username, email, hierarquia, senha);
     }
 
+    public void salvar(UsuarioGeral usuario) {
+		dao.save(usuario);
+	}
+
+	public void excluir(UsuarioGeral usuario) {
+		dao.delete(usuario);
+	}
+
+
     @Transactional(readOnly = true)
     public List<UsuarioGeral> buscarTodosUsuarios() {
         return dao.findAll();

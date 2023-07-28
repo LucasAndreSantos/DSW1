@@ -8,9 +8,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import br.ufscar.dc.dsw.model.UsuarioLocadora;
 import br.ufscar.dc.dsw.model.UsuarioGeral;
 import br.ufscar.dc.dsw.model.Locacoes;
-import br.ufscar.dc.dsw.repository.UsuarioLocadoraRepository;
-import br.ufscar.dc.dsw.repository.UsuarioGeralRepository;
-import br.ufscar.dc.dsw.repository.LocacoesRepository;
+
+//import br.ufscar.dc.dsw.repository.UsuarioLocadoraRepository;
+//import br.ufscar.dc.dsw.repository.UsuarioGeralRepository;
+import br.ufscar.dc.dsw.repository.LocacoesRepository; //PRECISO CRIAR O SERVICE DESSE AINDA
+import br.ufscar.dc.dsw.service.spec.IUsuarioLocadoraService;
+import br.ufscar.dc.dsw.service.spec.IUsuarioGeralService;
+
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -18,10 +22,12 @@ import org.springframework.web.servlet.ModelAndView;
 public class UsuarioLocadoraController {
 
     @Autowired
-    private UsuarioLocadoraRepository usuarioLocadoraRepository;
+    private IUsuarioLocadoraService usuarioLocadoraService;
+    //private UsuarioLocadoraRepository usuarioLocadoraRepository;
 
-    @Autowired
-    private UsuarioGeralRepository usuarioGeralRepository;
+    @Autowired 
+    private IUsuarioGeralService usuarioGeralService;
+    //private UsuarioGeralRepository usuarioGeralRepository;
 
     @Autowired
     private LocacoesRepository locacoesRepository;
@@ -29,21 +35,23 @@ public class UsuarioLocadoraController {
 
     @GetMapping("/testeusuariolocadora")
     public String getAllUsuarios(Model model) {
-        List<UsuarioLocadora> usuarios = usuarioLocadoraRepository.findAll();
+        List<UsuarioLocadora> usuarios = usuarioLocadoraRepository.findAll(); //NÃO COLOQUEI DO SERVICE PORQUE PRECISA TER O FINDALL NO DAO DE CLIENTE
         model.addAttribute("usuarios", usuarios);
         return "testeclientelocadora";
     }
 
     @GetMapping("/buscarcidades")
     public String getDistincntCity(Model model) {
-        List<String> cidades = usuarioLocadoraRepository.findDistinctCidades();
+        //List<String> cidades = usuarioLocadoraRepository.findDistinctCidades();
+        List<String> cidades = usuarioLocadoraService.buscarCidades();
         model.addAttribute("cidades", cidades);
         return "buscarcidades";
     }
 
     @PostMapping("/resultadocidades")
     public String resultadocidades(@RequestParam("cidade") String cidade, Model model) {
-        List<String> users = usuarioLocadoraRepository.findUsernamesByCidade(cidade);
+        //List<String> users = usuarioLocadoraRepository.findUsernamesByCidade(cidade);
+        List<String> users = usuarioLocadoraService.buscarNomePorCidade(cidade);
         model.addAttribute("cidade", cidade);
         model.addAttribute("users", users);
         return "resultadocidades";
@@ -57,8 +65,10 @@ public class UsuarioLocadoraController {
     @GetMapping("/readlocadora")
     public String getUserInfo(@RequestParam String usuariolocadora, Model model) {
         // Fetch the user by username from the repository
-        UsuarioGeral user = usuarioGeralRepository.findByUsername(usuariolocadora);
-        UsuarioLocadora locadora = usuarioLocadoraRepository.findByCnpj(user.getCpfCnpj());
+        //UsuarioGeral user = usuarioGeralRepository.findByUsername(usuariolocadora);
+        UsuarioGeral user = usuarioGeralService.buscarPorNome(usuariolocadora);
+        //UsuarioLocadora locadora = usuarioLocadoraRepository.findByCnpj(user.getCpfCnpj());
+        UsuarioLocadora locadora = usuarioLocadoraService.buscarPorCnpj(user.getCpfCnpj());
         model.addAttribute("user", user);
         model.addAttribute("locadora", locadora);
         return "placeinfo"; // Return the name of the Thymeleaf template (userinfo.html)
@@ -86,9 +96,12 @@ public class UsuarioLocadoraController {
         UsuarioLocadora usuarioLocadora = new UsuarioLocadora();
         usuarioLocadora.setCnpj(cpf_cnpj);
         usuarioLocadora.setCidade(cidade);
-        if (usuarioLocadoraRepository.findByCnpj(cpf_cnpj) == null){
-            usuarioGeralRepository.save(usuarioGeral);
-            usuarioLocadoraRepository.save(usuarioLocadora);
+        //if (usuarioLocadoraRepository.findByCnpj(cpf_cnpj) == null){
+        if (usuarioLocadoraService.buscarPorCnpj(cpf_cnpj) == null){
+            //usuarioGeralRepository.save(usuarioGeral);
+            usuarioGeralService.salvar(usuarioGeral);
+            //usuarioLocadoraRepository.save(usuarioLocadora);
+            usuarioLocadoraService.salvar(usuarioLocadora);
             insertSuccess = true;
         }
         else{
@@ -107,15 +120,19 @@ public class UsuarioLocadoraController {
         boolean insertSuccess = false;
 
         // Find the existing UsuarioGeral and UsuarioCliente objects to update
-        UsuarioGeral usuarioGeral = usuarioGeralRepository.findByUsername(usuariolocadora);
-        UsuarioLocadora usuarioLocadora = usuarioLocadoraRepository.findByCnpj(usuarioGeral.getCpfCnpj());
+        //UsuarioGeral usuarioGeral = usuarioGeralRepository.findByUsername(usuariolocadora);
+        UsuarioGeral usuarioGeral = usuarioGeralService.buscarPorNome(usuariolocadora);
+        //UsuarioLocadora usuarioLocadora = usuarioLocadoraRepository.findByCnpj(usuarioGeral.getCpfCnpj());
+        UsuarioLocadora usuarioLocadora = usuarioLocadoraService.buscarPorCnpj(usuarioGeral.getCpfCnpj());
         List<Locacoes> locacoesList = locacoesRepository.findByCnpj(usuarioGeral.getCpfCnpj());
         if (usuarioGeral != null && usuarioLocadora != null) {    
             for (Locacoes locacao : locacoesList) {
                 locacoesRepository.delete(locacao);
             }
-            usuarioLocadoraRepository.delete(usuarioLocadora);
-            usuarioGeralRepository.delete(usuarioGeral);
+            //usuarioLocadoraRepository.delete(usuarioLocadora);
+            usuarioLocadoraService.excluir(usuarioLocadora);
+            //usuarioGeralRepository.delete(usuarioGeral);
+            usuarioGeralService.excluir(usuarioGeral);
             insertSuccess = true;
         }
 
@@ -133,9 +150,11 @@ public class UsuarioLocadoraController {
     @GetMapping("/editarlocadora")
     public String editarlocadora(@RequestParam String usuariolocadora, Model model) {
         // Fetch the user by username from the repository
-        UsuarioGeral usuarioGeral = usuarioGeralRepository.findByUsername(usuariolocadora);
-        UsuarioLocadora usuarioLocadora = usuarioLocadoraRepository.findByCnpj(usuarioGeral.getCpfCnpj());
-        
+        //UsuarioGeral usuarioGeral = usuarioGeralRepository.findByUsername(usuariolocadora);
+        UsuarioGeral usuarioGeral = usuarioGeralService.buscarPorNome(usuariolocadora);
+        //UsuarioLocadora usuarioLocadora = usuarioLocadoraRepository.findByCnpj(usuarioGeral.getCpfCnpj());
+        suarioLocadora usuarioLocadora = usuarioLocadoraService.buscarPorCnpj(usuarioGeral.getCpfCnpj());
+
         // Pass the existing client data to the view
         model.addAttribute("usuarioGeral", usuarioGeral);
         model.addAttribute("usuarioLocadora", usuarioLocadora);
@@ -152,8 +171,10 @@ public class UsuarioLocadoraController {
         boolean insertSuccess = false;
 
         // Find the existing UsuarioGeral and UsuarioLocadora objects to update
-        UsuarioGeral usuarioGeral = usuarioGeralRepository.findByCpfCnpj(cpf_cnpj);
-        UsuarioLocadora usuarioLocadora = usuarioLocadoraRepository.findByCnpj(cpf_cnpj);
+        //UsuarioGeral usuarioGeral = usuarioGeralRepository.findByCpfCnpj(cpf_cnpj);
+        UsuarioGeral usuarioGeral = usuarioGeralService.buscarPorCpfCnpj(cpf_cnpj);
+        //UsuarioLocadora usuarioLocadora = usuarioLocadoraRepository.findByCnpj(cpf_cnpj);
+        UsuarioLocadora usuarioLocadora = usuarioLocadoraService.buscarPorCnpj(cpf_cnpj);
 
         if (usuarioGeral != null && usuarioLocadora != null) {
             // Update the UsuarioGeral and UsuarioLocadora objects with new data
@@ -164,8 +185,10 @@ public class UsuarioLocadoraController {
 
             usuarioLocadora.setCidade(cidade);
 
-            usuarioGeralRepository.save(usuarioGeral);
-            usuarioLocadoraRepository.save(usuarioLocadora);
+            //usuarioGeralRepository.save(usuarioGeral);
+            usuarioGeralService.salvar(usuarioGeral);
+            //usuarioLocadoraRepository.save(usuarioLocadora);
+            usuarioLocadoraService.salvar(usuarioLocadora);
 
             insertSuccess = true;
         } else {

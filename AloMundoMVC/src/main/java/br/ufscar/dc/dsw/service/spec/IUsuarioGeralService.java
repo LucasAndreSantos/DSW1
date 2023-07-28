@@ -17,4 +17,8 @@ public interface IUsuarioGeralService {
     UsuarioGeral buscarPorNome(String username);
 
     UsuarioGeral buscarPorCpfCnpj(String cpfCnpj);
+
+    void excluir(UsuarioGeral usuario);
+
+    void salvar(UsuarioGeral usuario);
 }

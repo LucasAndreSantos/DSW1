@@ -19,6 +19,14 @@ public class UsuarioClienteService implements IUsuarioClienteService {
         dao.updateUsuarioClienteData(cpf, sexo, telefone, dataNascimento);
     }
 
+    public void salvar(UsuarioCliente cliente) {
+		dao.save(cliente);
+	}
+
+	public void excluir(UsuarioCliente cliente) {
+		dao.delete(cliente);
+	}
+
     @Transactional(readOnly = true)
     public UsuarioCliente buscarPorCpf(String cpf) {
         return dao.findByCpf(cpf);

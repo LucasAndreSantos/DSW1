@@ -5,18 +5,23 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import br.ufscar.dc.dsw.model.UsuarioGeral;
-import br.ufscar.dc.dsw.repository.UsuarioGeralRepository;
+
+//import br.ufscar.dc.dsw.repository.UsuarioGeralRepository;
+import br.ufscar.dc.dsw.service.spec.IUsuarioGeralService;
+
 import javax.servlet.http.HttpSession;
 
 @Controller
 public class UsuarioGeralController {
 
     @Autowired
-    private UsuarioGeralRepository usuarioGeralRepository;
+    private IUsuarioGeralService usuarioGeralService;
+    //private UsuarioGeralRepository usuarioGeralRepository;
 
     @GetMapping("/testeusuariogeral")
     public String getAllUsuarios(Model model) {
-        List<UsuarioGeral> usuarios = usuarioGeralRepository.findAll();
+        //List<UsuarioGeral> usuarios = usuarioGeralRepository.findAll();
+        List<UsuarioGeral> usuarios = usuarioGeralService.buscarTodosUsuarios();
         model.addAttribute("usuarios", usuarios);
         return "teste";
     }
@@ -29,8 +34,10 @@ public class UsuarioGeralController {
         }
         else{
             if ((Integer) session.getAttribute("hierarquia") == 1) {
-                List<String> commercialpartners = usuarioGeralRepository.comercialpartners();
-                List<String> allclients = usuarioGeralRepository.allclients();
+                //List<String> commercialpartners = usuarioGeralRepository.comercialpartners();
+                List<String> commercialpartners = usuarioGeralService.buscarParceirosComerciais();
+                //List<String> allclients = usuarioGeralRepository.allclients();
+                List<String> allclients = usuarioGeralService.buscarTodosClientes();
 
                 model.addAttribute("commercialpartners", commercialpartners);
                 model.addAttribute("allclients", allclients);
@@ -46,7 +53,8 @@ public class UsuarioGeralController {
 
     @GetMapping("/comercialpartners")
     public String getComercialPartners(Model model) {
-        List<String> usernames = usuarioGeralRepository.comercialpartners();
+        //List<String> usernames = usuarioGeralRepository.comercialpartners();
+        List<String> usernames = usuarioGeralService.buscarParceirosComerciais();
         model.addAttribute("usernames", usernames);
         return "comercialpartners";
     }

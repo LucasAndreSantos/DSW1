@@ -29,5 +29,11 @@ public interface UsuarioGeralRepository extends JpaRepository<UsuarioGeral, Long
     @Query("SELECT DISTINCT u FROM UsuarioGeral u JOIN UsuarioLocadora l ON u.cpf_cnpj = l.cnpj")
     List<UsuarioGeral> findByCnpjInUsuarioLocadora();
 
+    
+    void delete(UsuarioGeral usuario);
+
+    // Add the saveUsuarioLGeral method
+    UsuarioLocadora save(UsuarioGeral usuario);
+
 
 }

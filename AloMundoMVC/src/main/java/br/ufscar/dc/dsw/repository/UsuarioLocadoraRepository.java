@@ -12,6 +12,13 @@ public interface UsuarioLocadoraRepository extends JpaRepository<UsuarioLocadora
     @Query(value = "SELECT username FROM usuariogeral JOIN usuariolocadora ul ON cpf_cnpj = ul.cnpj WHERE ul.cidade  = ?1", nativeQuery = true)
     List<String> findUsernamesByCidade(String cidade);
 
+    
     UsuarioLocadora findByCnpj(String cnpj);
+
+    
+    void delete(UsuarioLocadora locadora);
+
+    
+    UsuarioLocadora save(UsuarioLocadora locadora);
 }
 

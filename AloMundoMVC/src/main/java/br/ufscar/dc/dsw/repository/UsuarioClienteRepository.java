@@ -13,4 +13,9 @@ public interface UsuarioClienteRepository extends JpaRepository<UsuarioCliente, 
         @Query("UPDATE UsuarioCliente u SET u.sexo = :sexo, u.telefone = :telefone, u.dataDeNascimento = :dataNascimento WHERE u.cpf = :cpf")
         void updateUsuarioClienteData(@Param("cpf") String cpf, @Param("sexo") String sexo,
                                     @Param("telefone") String telefone, @Param("dataNascimento") String dataNascimento);
+    
+    void delete(UsuarioCliente cliente);
+
+    
+    UsuarioCliente save(UsuarioCliente cliente);
 }

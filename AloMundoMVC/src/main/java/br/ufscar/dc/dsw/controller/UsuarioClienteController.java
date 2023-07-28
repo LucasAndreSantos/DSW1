@@ -5,9 +5,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import br.ufscar.dc.dsw.model.UsuarioCliente;
-import br.ufscar.dc.dsw.repository.UsuarioClienteRepository;
+
+//import br.ufscar.dc.dsw.repository.UsuarioClienteRepository;
 import br.ufscar.dc.dsw.repository.LocacoesRepository;
-import br.ufscar.dc.dsw.repository.UsuarioGeralRepository;
+//import br.ufscar.dc.dsw.repository.UsuarioGeralRepository;
+import br.ufscar.dc.dsw.service.spec.IUsuarioClienteService;
+import br.ufscar.dc.dsw.service.spec.IUsuarioGeralService;
+
+
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,19 +29,22 @@ import br.ufscar.dc.dsw.service.impl.UsuarioClienteService;
 public class UsuarioClienteController {
 
     @Autowired
-    private UsuarioClienteRepository usuarioClienteRepository;
+    private IUsuarioClienteService usuarioClienteService;
+    //private UsuarioClienteRepository usuarioClienteRepository;
 
     @Autowired
-    private UsuarioGeralRepository usuarioGeralRepository;
+    private IUsuarioGeralService usuarioGeralService;
+    //private UsuarioGeralRepository usuarioGeralRepository;
 
     @Autowired
     private LocacoesRepository locacoesRepository;
 
-    @Autowired
-    private UsuarioClienteService service;    
+    //@Autowired
+    //private UsuarioClienteService service;    
 
     @GetMapping("/testeusuariocliente")
     public String getAllUsuarios(Model model) {
+        //NÃO COLOQUEI DO SERVICE PORQUE PRECISA TER O FINDALL NO DAO DE CLIENTE
         List<UsuarioCliente> usuarios = usuarioClienteRepository.findAll();
         model.addAttribute("usuarios", usuarios);
         return "testecliente";
@@ -45,8 +53,10 @@ public class UsuarioClienteController {
     @GetMapping("/editarcliente")
     public String editarcliente(@RequestParam String usuariocliente, Model model) {
         // Fetch the user by username from the repository
-        UsuarioGeral usuarioGeral = usuarioGeralRepository.findByUsername(usuariocliente);
-        UsuarioCliente usuarioCliente = usuarioClienteRepository.findByCpf(usuarioGeral.getCpfCnpj());
+        //UsuarioGeral usuarioGeral = usuarioGeralRepository.findByUsername(usuariocliente);
+        UsuarioGeral usuarioGeral = usuarioGeralService.buscarPorNome(usuariocliente);
+        //UsuarioCliente usuarioCliente = usuarioClienteRepository.findByCpf(usuarioGeral.getCpfCnpj());
+        UsuarioCliente usuarioCliente = usuarioClienteService.buscarPorCpf(usuarioGeral.getCpfCnpj());
         
         // Pass the existing client data to the view
         model.addAttribute("usuarioGeral", usuarioGeral);
@@ -63,8 +73,10 @@ public class UsuarioClienteController {
     @GetMapping("/user")
     public String getUserInfo(@RequestParam String usuariocliente, Model model) {
         // Fetch the user by username from the repository
-        UsuarioGeral user = usuarioGeralRepository.findByUsername(usuariocliente);
-        UsuarioCliente cliente = service.buscarPorCpf(user.getCpfCnpj());
+        //UsuarioGeral user = usuarioGeralRepository.findByUsername(usuariocliente);
+        UsuarioGeral user = usuarioGeralService.buscarPorNome(usuariocliente);
+        //UsuarioCliente cliente = service.buscarPorCpf(user.getCpfCnpj());
+        UsuarioCliente cliente = usuarioClienteService.buscarPorCpf(user.getCpfCnpj());
         model.addAttribute("user", user);
         model.addAttribute("cliente", cliente);
         return "userinfo"; // Return the name of the Thymeleaf template (userinfo.html)
@@ -110,9 +122,12 @@ public class UsuarioClienteController {
         usuarioCliente.setTelefone(telefone);
         usuarioCliente.setDataDeNascimento(dataNascimento.toString());
 
-    if (usuarioClienteRepository.findByCpf(cpf_cnpj) == null){
-        usuarioGeralRepository.save(usuarioGeral);
-        usuarioClienteRepository.save(usuarioCliente);
+    //if (usuarioClienteRepository.findByCpf(cpf_cnpj) == null){
+    if (usuarioClienteService.buscarPorCpf(cpf_cnpj) == null){
+        //usuarioGeralRepository.save(usuarioGeral);
+        usuarioGeralService.salvar(usuarioGeral);
+        //usuarioClienteRepository.save(usuarioCliente);
+        usuarioClienteService.salvar(usuarioCliente);
         insertSuccess = true;
     }
     else{
@@ -150,8 +165,10 @@ public class UsuarioClienteController {
         }
 
         // Find the existing UsuarioGeral and UsuarioCliente objects to update
-        UsuarioGeral usuarioGeral = usuarioGeralRepository.findByCpfCnpj(cpf_cnpj);
-        UsuarioCliente usuarioCliente = usuarioClienteRepository.findByCpf(usuarioGeral.getCpfCnpj());
+        //UsuarioGeral usuarioGeral = usuarioGeralRepository.findByCpfCnpj(cpf_cnpj);
+        UsuarioGeral usuarioGeral = usuarioGeralService.buscarPorCpfCnpj(cpf_cnpj);
+        //UsuarioCliente usuarioCliente = usuarioClienteRepository.findByCpf(usuarioGeral.getCpfCnpj());
+        UsuarioCliente usuarioCliente = usuarioClienteService.buscarPorCpf(usuarioGeral.getCpfCnpj());
 
         if (usuarioGeral != null && usuarioCliente != null) {
             // Update the UsuarioGeral and UsuarioCliente objects with new data
@@ -164,9 +181,11 @@ public class UsuarioClienteController {
             usuarioCliente.setTelefone(telefone);
             usuarioCliente.setDataDeNascimento(dataNascimento.toString());
 
-            usuarioGeralRepository.save(usuarioGeral);
-            usuarioClienteRepository.save(usuarioCliente);
-            
+            //usuarioGeralRepository.save(usuarioGeral);
+            usuarioGeralService.salvar(usuarioGeral);
+            //usuarioClienteRepository.save(usuarioCliente);
+            usuarioClienteService.salvar(usuarioCliente);
+
             insertSuccess = true;
         } else {
             // If the user does not exist, handle the error (e.g., show an error message)
@@ -184,15 +203,19 @@ public class UsuarioClienteController {
         boolean insertSuccess = false;
 
         // Find the existing UsuarioGeral and UsuarioCliente objects to update
-        UsuarioGeral usuarioGeral = usuarioGeralRepository.findByUsername(usuariocliente);
-        UsuarioCliente usuarioCliente = usuarioClienteRepository.findByCpf(usuarioGeral.getCpfCnpj());
+        //UsuarioGeral usuarioGeral = usuarioGeralRepository.findByUsername(usuariocliente);
+        UsuarioGeral usuarioGeral = usuarioGeralService.buscarPorNome(usuariocliente);
+        //UsuarioCliente usuarioCliente = usuarioClienteRepository.findByCpf(usuarioGeral.getCpfCnpj());
+        UsuarioCliente usuarioCliente = usuarioClienteService.buscarPorCpf(usuarioGeral.getCpfCnpj());
         List<Locacoes> locacoesList = locacoesRepository.findByCpf(usuarioGeral.getCpfCnpj());
         if (usuarioGeral != null && usuarioCliente != null) {    
             for (Locacoes locacao : locacoesList) {
                 locacoesRepository.delete(locacao);
             }
-            usuarioClienteRepository.delete(usuarioCliente);
-            usuarioGeralRepository.delete(usuarioGeral);
+            //usuarioClienteRepository.delete(usuarioCliente);
+            usuarioClienteService.excluir(usuarioCliente);
+            //usuarioGeralRepository.delete(usuarioGeral);
+            usuarioGeralService.excluir(usuarioGeral);
             insertSuccess = true;
         }
 
