@@ -25,7 +25,7 @@
     <h2>Welcome <span th:text="${user.username}"></span></h2>
   </div>
 
-  <form action="CadastrarLocacao.jsp" method="post">
+  <form action="CadastrarLocacao" method="post">
     <ul>
       <label for="cidade">Company:</label>
       <select name="cidade" id="cidade" required>
@@ -42,6 +42,14 @@
     <script th:inline="javascript">
       window.location.href = 'loginpage';
     </script>
+  </div>
+  <div th:switch="${error}">
+    <p th:case="'notAllowed'">Error: You are not allowed to perform this action as a usuariolocadora.</p>
+    <p th:case="'alreadyRented'">Error: You already have a rental during the selected hour.</p>
+    <p th:case="'notAvailable'">Error: The selected company already has a rental during the selected hour.</p>
+    <p th:case="'success'">Success: Rental has been created successfully.</p>
+    <!-- Add more cases as needed -->
+    <p th:case="*">Other error message here...</p>
   </div>
 </body>
 </html>

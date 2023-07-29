@@ -29,11 +29,17 @@ public interface UsuarioGeralRepository extends JpaRepository<UsuarioGeral, Long
     @Query("SELECT DISTINCT u FROM UsuarioGeral u JOIN UsuarioLocadora l ON u.cpf_cnpj = l.cnpj")
     List<UsuarioGeral> findByCnpjInUsuarioLocadora();
 
-    
+    @Query("SELECT COUNT(l) > 0 FROM UsuarioGeral u JOIN UsuarioLocadora l ON u.cpf_cnpj = l.cnpj WHERE u.username = :username")
+    boolean existsByUsernameInUsuarioLocadora(@Param("username") String username);
+
+
+    @Query("SELECT u.cpf_cnpj FROM UsuarioGeral u WHERE u.username = :username")
+    String findCnpjByUsername(@Param("username") String username);
+
     void delete(UsuarioGeral usuario);
 
     // Add the saveUsuarioLGeral method
-    UsuarioLocadora save(UsuarioGeral usuario);
+    UsuarioGeral save(UsuarioGeral usuario);
 
 
 }

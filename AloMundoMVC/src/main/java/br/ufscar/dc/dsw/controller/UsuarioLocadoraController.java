@@ -156,7 +156,7 @@ public class UsuarioLocadoraController {
         //UsuarioGeral usuarioGeral = usuarioGeralRepository.findByUsername(usuariolocadora);
         UsuarioGeral usuarioGeral = usuarioGeralService.buscarPorNome(usuariolocadora);
         //UsuarioLocadora usuarioLocadora = usuarioLocadoraRepository.findByCnpj(usuarioGeral.getCpfCnpj());
-        suarioLocadora usuarioLocadora = usuarioLocadoraService.buscarPorCnpj(usuarioGeral.getCpfCnpj());
+        UsuarioLocadora usuarioLocadora = usuarioLocadoraService.buscarPorCnpj(usuarioGeral.getCpfCnpj());
 
         // Pass the existing client data to the view
         model.addAttribute("usuarioGeral", usuarioGeral);
