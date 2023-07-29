@@ -21,4 +21,10 @@ public interface IUsuarioGeralService {
     void excluir(UsuarioGeral usuario);
 
     void salvar(UsuarioGeral usuario);
+
+    List<UsuarioGeral> buscarPorCnpjInUsuarioLocadora();
+
+    boolean existeNomeemUsuarioLocadora(String username);
+
+    String encontrarCnpjPorNome(String username);
 }

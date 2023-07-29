@@ -7,9 +7,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import br.ufscar.dc.dsw.model.Locacoes;
 import br.ufscar.dc.dsw.model.UsuarioGeral;
-import br.ufscar.dc.dsw.repository.LocacoesRepository; //PRECISO CRIAR O SERVICE DESSE AINDA
-import br.ufscar.dc.dsw.repository.UsuarioLocadoraRepository;
-import br.ufscar.dc.dsw.repository.UsuarioGeralRepository;
+
+
+//import br.ufscar.dc.dsw.repository.LocacoesRepository; 
+//import br.ufscar.dc.dsw.repository.UsuarioLocadoraRepository;
+//import br.ufscar.dc.dsw.repository.UsuarioGeralRepository;
+import br.ufscar.dc.dsw.service.spec.ILocacoesService;
+//import br.ufscar.dc.dsw.service.spec.IUsuarioLocadoraService; COLOQUEI AQUI MAS PERCEBI QUE NÃO É CHAMADO EM NENHUM MOMENTO, POR ISSO COMENTEI
+import br.ufscar.dc.dsw.service.spec.IUsuarioGeralService;
+
+
 import java.security.Principal;
 import org.springframework.web.bind.annotation.RequestParam;
 import java.time.LocalDateTime;
@@ -33,19 +40,21 @@ import javax.servlet.http.HttpSession;
 public class LocacoesController {
 
     @Autowired
-    private LocacoesRepository locacoesRepository;
+    private ILocacoesService locacoesService;
+    //private LocacoesRepository locacoesRepository;
     
     @Autowired
-    private UsuarioGeralRepository usuarioGeralRepository;
-    //private IUsuarioGeralService usuarioGeralService;
+    private IUsuarioGeralService usuarioGeralService;
+    //private UsuarioGeralRepository usuarioGeralRepository;
 
-    @Autowired
-    private UsuarioLocadoraRepository usuarioLocadoraRepository;
-    //private IUsuarioGeralService usuarioGeralService;
+    //@Autowired
+    //private IUsuarioLocadoraService usuarioLocadoraService;
+    //private UsuarioLocadoraRepository usuarioLocadoraRepository;
 
     @GetMapping("/testelocacoes")
     public String getAllUsuarios(Model model) {
-        List<Locacoes> usuarios = locacoesRepository.findAll();
+        //List<Locacoes> usuarios = locacoesRepository.findAll();
+        List<Locacoes> usuarios = locacoesService.buscarTodos();
         model.addAttribute("usuarios", usuarios);
         return "testelocacoes";
     }
@@ -55,7 +64,8 @@ public class LocacoesController {
     public String locar(Model model, HttpSession session, @RequestParam(name = "error", required = false) String error) {
         model.addAttribute("user", session.getAttribute("user"));
         // Retrieve the list of usernames from usuariogeral that match cnpj in usuariolocadora
-        List<UsuarioGeral> usuariosGeral = usuarioGeralRepository.findByCnpjInUsuarioLocadora(); //PRECISA IMPLEMENTAR NO DAO -> SERVICE -> ISERVICE -> TRAZER PARA CÁ
+        //List<UsuarioGeral> usuariosGeral = usuarioGeralRepository.findByCnpjInUsuarioLocadora(); //PRECISA IMPLEMENTAR NO DAO -> SERVICE -> ISERVICE -> TRAZER PARA CÁ
+        List<UsuarioGeral> usuariosGeral = usuarioGeralService.buscarPorCnpjemUsuarioLocadora();
         model.addAttribute("usuariosGeral", usuariosGeral);
         model.addAttribute("error", error);
         return "cadastrarlocacao";
@@ -74,7 +84,8 @@ public class LocacoesController {
         if (user == null) {
             return "redirect:/loginpage";
         }
-        if (usuarioGeralRepository.existsByUsernameInUsuarioLocadora(user.getUsername())) {
+        //if (usuarioGeralRepository.existsByUsernameInUsuarioLocadora(user.getUsername())) {
+        if (usuarioGeralService.existeNomeemUsuarioLocadora(user.getUsername())) {  
             // Handle the error (e.g., show a message to the user).
             // For simplicity, let's redirect back to the form with an error message.
             return "redirect:/locar?error=notAllowed";
@@ -96,7 +107,8 @@ public class LocacoesController {
         devolucaoCalendar.setTime(Date.from(hourDevolucao.atZone(ZoneId.systemDefault()).toInstant()));
 
         // Check if the user already has a rental during the selected hour
-        long count = locacoesRepository.countByCpfAndTimeRange(user.getCpfCnpj(), locacaoCalendar.getTime(), devolucaoCalendar.getTime());
+        //long count = locacoesRepository.countByCpfAndTimeRange(user.getCpfCnpj(), locacaoCalendar.getTime(), devolucaoCalendar.getTime());
+        long count = locacoesService.contaPorCpf(user.getCpfCnpj(), locacaoCalendar.getTime(), devolucaoCalendar.getTime());
         if (count > 0) {
             return "redirect:/locar?error=alreadyRented";
         }
@@ -105,14 +117,16 @@ public class LocacoesController {
         String cnpj = cidade;
 
         // Check if the locadora already has a rental during the selected hour
-        count = locacoesRepository.countByCnpjAndTimeRange(cnpj, locacaoCalendar.getTime(), devolucaoCalendar.getTime());
+        //count = locacoesRepository.countByCnpjAndTimeRange(cnpj, locacaoCalendar.getTime(), devolucaoCalendar.getTime());
+        count = locacoesService.contaPorCnpj(cnpj, locacaoCalendar.getTime(), devolucaoCalendar.getTime());
         if (count > 0) {
             return "redirect:/locar?error=notAvailable";
         }
 
         // Save the Locacoes entity in the database
         Locacoes locacao = new Locacoes(user.getCpfCnpj(), cnpj, locacaoCalendar.getTime(), devolucaoCalendar.getTime());
-        locacoesRepository.save(locacao);
+        //locacoesRepository.save(locacao);
+        locacoesService.salvar(locacao);
 
         // Redirect to a success page or any other desired page
         return "redirect:/locar?error=success"; // Replace "successPage" with the desired success page URL.

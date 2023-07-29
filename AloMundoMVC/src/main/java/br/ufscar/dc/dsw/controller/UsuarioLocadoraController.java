@@ -9,12 +9,12 @@ import br.ufscar.dc.dsw.model.UsuarioLocadora;
 import br.ufscar.dc.dsw.model.UsuarioGeral;
 import br.ufscar.dc.dsw.model.Locacoes;
 
-import br.ufscar.dc.dsw.repository.UsuarioLocadoraRepository; //TIVE QUE DEIXAR POR CONTA DO FINDALL() LINHA 40
+//import br.ufscar.dc.dsw.repository.UsuarioLocadoraRepository;
 //import br.ufscar.dc.dsw.repository.UsuarioGeralRepository;
+//import br.ufscar.dc.dsw.repository.LocacoesRepository;
 import br.ufscar.dc.dsw.service.spec.IUsuarioLocadoraService;
 import br.ufscar.dc.dsw.service.spec.IUsuarioGeralService;
-
-import br.ufscar.dc.dsw.repository.LocacoesRepository; //PRECISO CRIAR O SERVICE DESSE AINDA
+import br.ufscar.dc.dsw.service.spec.ILocacoesService;
 
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
@@ -24,21 +24,21 @@ public class UsuarioLocadoraController {
 
     @Autowired
     private IUsuarioLocadoraService usuarioLocadoraService;
-
-    @Autowired
-    private UsuarioLocadoraRepository usuarioLocadoraRepository; //TIVE QUE DEIXAR POR CONTA DO FINDALL() LINHA 40
+    //private UsuarioLocadoraRepository usuarioLocadoraRepository;
 
     @Autowired 
     private IUsuarioGeralService usuarioGeralService;
     //private UsuarioGeralRepository usuarioGeralRepository;
 
     @Autowired
-    private LocacoesRepository locacoesRepository;
+    private LocacoesService locacoesService;
+    //private LocacoesRepository locacoesRepository;
         
 
     @GetMapping("/testeusuariolocadora")
     public String getAllUsuarios(Model model) {
-        List<UsuarioLocadora> usuarios = usuarioLocadoraRepository.findAll(); //NÃO COLOQUEI DO SERVICE PORQUE PRECISA TER O FINDALL NO DAO DE CLIENTE
+        //List<UsuarioLocadora> usuarios = usuarioLocadoraRepository.findAll(); 
+        List<UsuarioLocadora> usuarios = usuarioLocadoraService.buscarTodos();
         model.addAttribute("usuarios", usuarios);
         return "testeclientelocadora";
     }
@@ -127,10 +127,12 @@ public class UsuarioLocadoraController {
         UsuarioGeral usuarioGeral = usuarioGeralService.buscarPorNome(usuariolocadora);
         //UsuarioLocadora usuarioLocadora = usuarioLocadoraRepository.findByCnpj(usuarioGeral.getCpfCnpj());
         UsuarioLocadora usuarioLocadora = usuarioLocadoraService.buscarPorCnpj(usuarioGeral.getCpfCnpj());
-        List<Locacoes> locacoesList = locacoesRepository.findByCnpj(usuarioGeral.getCpfCnpj());
+        //List<Locacoes> locacoesList = locacoesRepository.findByCnpj(usuarioGeral.getCpfCnpj());
+        List<Locacoes> locacoesList = locacoesService.buscarPorCnpj(usuarioGeral.getCpfCnpj());
         if (usuarioGeral != null && usuarioLocadora != null) {    
             for (Locacoes locacao : locacoesList) {
-                locacoesRepository.delete(locacao);
+                //locacoesRepository.delete(locacao);
+                locacoesService.excluir(locacao);
             }
             //usuarioLocadoraRepository.delete(usuarioLocadora);
             usuarioLocadoraService.excluir(usuarioLocadora);

@@ -12,6 +12,8 @@ public interface LocacoesRepository extends JpaRepository<Locacoes, Long> {
 
     List<Locacoes> findByCnpj(String cnpj);
 
+    List<Locacoes> findAll();
+
     // Count the number of rentals for a given CPF that overlap with the specified time range
     @Query("SELECT COUNT(*) FROM Locacoes WHERE cpf = :cpf AND (horalocacao < :endTime AND horadevolucao > :startTime)")
     long countByCpfAndTimeRange(@Param("cpf") String cpf,

@@ -39,4 +39,10 @@ public class UsuarioLocadoraService implements IUsuarioLocadoraService {
     public UsuarioLocadora buscarPorCnpj(String cnpj) {
         return dao.findByCnpj(cnpj);
     }
+
+    @Transactional(readOnly = true)
+    public List<UsuarioLocadora> buscarTodos() {
+        return dao.findAll();
+    }
+
 }

@@ -32,5 +32,10 @@ public class UsuarioClienteService implements IUsuarioClienteService {
         return dao.findByCpf(cpf);
     }
 
+    @Transactional(readOnly = true)
+    public List<UsuarioCliente> buscarTodos() {
+        return dao.findAll();
+    }
+
     
 }

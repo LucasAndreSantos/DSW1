@@ -29,7 +29,6 @@ public class UsuarioGeralService implements IUsuarioGeralService {
 		dao.delete(usuario);
 	}
 
-
     @Transactional(readOnly = true)
     public List<UsuarioGeral> buscarTodosUsuarios() {
         return dao.findAll();
@@ -45,7 +44,6 @@ public class UsuarioGeralService implements IUsuarioGeralService {
         return dao.allclients();
     }
 
-
     @Transactional(readOnly = true)
     public UsuarioGeral buscarPorNome(String username) {
         return dao.findByUsername(username);
@@ -54,5 +52,20 @@ public class UsuarioGeralService implements IUsuarioGeralService {
     @Transactional(readOnly = true)
     public UsuarioGeral buscarPorCpfCnpj(String cpfCnpj) {
         return dao.findByCpfCnpj(cpfCnpj);
+    }
+
+    @Transactional(readOnly = true)
+    public List<UsuarioGeral> buscarPorCnpjemUsuarioLocadora() {
+        return dao.findByCnpjInUsuarioLocadora();
+    }
+
+    @Transactional(readOnly = true)
+    public boolean existeNomeemUsuarioLocadora(String username) {
+        return dao.existsByUsernameInUsuarioLocadora(username);
+    }
+
+    @Transactional(readOnly = true)
+    public String encontrarCnpjPorNome(String username) {
+        return dao.findCnpjByUsername(username);
     }
 }

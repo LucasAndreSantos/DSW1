@@ -6,12 +6,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import br.ufscar.dc.dsw.model.UsuarioCliente;
 
-import br.ufscar.dc.dsw.repository.UsuarioClienteRepository; //TIVE QUE DEIXAR POR CONTA DO FINDALL() LINHA 49
-import br.ufscar.dc.dsw.repository.LocacoesRepository; //PRECISO CRIAR O SERVICE DESSE AINDA
+//import br.ufscar.dc.dsw.repository.UsuarioClienteRepository; 
+//import br.ufscar.dc.dsw.repository.LocacoesRepository; 
 //import br.ufscar.dc.dsw.repository.UsuarioGeralRepository;
 import br.ufscar.dc.dsw.service.spec.IUsuarioClienteService;
 import br.ufscar.dc.dsw.service.spec.IUsuarioGeralService;
-
+import br.ufscar.dc.dsw.service.spec.ILocacoesService;
 
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -30,23 +30,24 @@ public class UsuarioClienteController {
 
     @Autowired
     private IUsuarioClienteService usuarioClienteService;
+    //private UsuarioClienteRepository usuarioClienteRepository;
 
-    @Autowired
-    private UsuarioClienteRepository usuarioClienteRepository; //TIVE QUE DEIXAR POR CONTA DO FINDALL() LINHA 49
 
     @Autowired
     private IUsuarioGeralService usuarioGeralService;
     //private UsuarioGeralRepository usuarioGeralRepository;
 
     @Autowired
-    private LocacoesRepository locacoesRepository;
+    private ILocacoesService locacoesService;
+    //private LocacoesRepository locacoesRepository;
 
     //@Autowired
     //private UsuarioClienteService service;    
 
     @GetMapping("/testeusuariocliente")
     public String getAllUsuarios(Model model) {
-        List<UsuarioCliente> usuarios = usuarioClienteRepository.findAll(); //NÃO COLOQUEI DO SERVICE PORQUE PRECISA TER O FINDALL NO DAO DE CLIENTE
+        //List<UsuarioCliente> usuarios = usuarioClienteRepository.findAll(); 
+        List<UsuarioCliente> usuarios = usuarioClienteService.buscarTodos();
         model.addAttribute("usuarios", usuarios);
         return "testecliente";
     }
@@ -208,10 +209,12 @@ public class UsuarioClienteController {
         UsuarioGeral usuarioGeral = usuarioGeralService.buscarPorNome(usuariocliente);
         //UsuarioCliente usuarioCliente = usuarioClienteRepository.findByCpf(usuarioGeral.getCpfCnpj());
         UsuarioCliente usuarioCliente = usuarioClienteService.buscarPorCpf(usuarioGeral.getCpfCnpj());
-        List<Locacoes> locacoesList = locacoesRepository.findByCpf(usuarioGeral.getCpfCnpj());
+        //List<Locacoes> locacoesList = locacoesRepository.findByCpf(usuarioGeral.getCpfCnpj());
+        List<Locacoes> locacoesList = locacoesService.buscarPorCpf(usuarioGeral.getCpfCnpj());
         if (usuarioGeral != null && usuarioCliente != null) {    
             for (Locacoes locacao : locacoesList) {
-                locacoesRepository.delete(locacao);
+                //locacoesRepository.delete(locacao);
+                locacoesService.excluir(locacao);
             }
             //usuarioClienteRepository.delete(usuarioCliente);
             usuarioClienteService.excluir(usuarioCliente);

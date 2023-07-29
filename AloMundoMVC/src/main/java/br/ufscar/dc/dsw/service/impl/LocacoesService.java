@@ -17,6 +17,10 @@ public class LocacoesService implements ILocacoesService {
     @Autowired
     private LocacoesRepository dao;
 
+    public void salvar(Locacoes locacao) {
+		dao.save(locacao);
+	}
+
     @Transactional(readOnly = true)
     public List<Locacoes> buscarPorCpf(String cpf) {
         return dao.findByCpf(cpf);
@@ -25,5 +29,20 @@ public class LocacoesService implements ILocacoesService {
     @Transactional(readOnly = true)
     public List<Locacoes> buscarPorCnpj(String cnpj) {
         return dao.findByCnpj(cnpj);
+    }
+
+    @Transactional(readOnly = true)
+    public List<Locacoes> buscarTodos() {
+        return dao.findAll();
+    }
+
+    @Transactional(readOnly = true)
+    public void contaPorCpf(String cpf, Date startTime, Date endTime) {
+        dao.countByCpfAndTimeRange(cpf, startTime, endTime);
+    }
+
+    @Transactional(readOnly = true)
+    public void contaPorCnpj(String cnpj, Date startTime, Date endTime) {
+        dao.countByCnpjAndTimeRange(cnpj, startTime, endTime);
     }
 }

@@ -18,4 +18,6 @@ public interface UsuarioClienteRepository extends JpaRepository<UsuarioCliente, 
 
     
     UsuarioCliente save(UsuarioCliente cliente);
+
+    List<UsuarioCliente> findAll();
 }
