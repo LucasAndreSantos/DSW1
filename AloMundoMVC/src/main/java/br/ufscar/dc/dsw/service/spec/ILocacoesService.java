@@ -8,13 +8,15 @@ public interface ILocacoesService {
 
     void salvar(Locacoes locacao);
 
+    void excluir(Locacoes locacao);
+
     List<Locacoes> buscarPorCpf(String cpf);
 
     List<Locacoes> buscarPorCnpj(String cnpj);
 
     List<Locacoes> buscarTodos();
 
-    void contaPorCpf(String cpf, Date startTime, Date endTime);
+    long contaPorCpf(String cpf, Date startTime, Date endTime);
 
-    void contaPorCnpj(String cnpj, Date startTime, Date endTime);
+    long contaPorCnpj(String cnpj, Date startTime, Date endTime);
 }

@@ -31,7 +31,7 @@ public class UsuarioLocadoraController {
     //private UsuarioGeralRepository usuarioGeralRepository;
 
     @Autowired
-    private LocacoesService locacoesService;
+    private ILocacoesService locacoesService;
     //private LocacoesRepository locacoesRepository;
         
 

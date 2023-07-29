@@ -15,4 +15,6 @@ public interface IUsuarioLocadoraService {
     void excluir(UsuarioLocadora locadora);
 
     void salvar(UsuarioLocadora locadora);
+
+    List<UsuarioLocadora> buscarTodos();
 }

@@ -30,8 +30,7 @@ import java.util.Date;
 import java.time.Instant;
 import java.util.Calendar;
 import java.time.format.DateTimeFormatter;
-//import br.ufscar.dc.dsw.service.spec.IUsuarioGeralService; -> Esse que está comentado pois o método utilizado aqui ainda não está implementado no service
-
+import br.ufscar.dc.dsw.service.spec.IUsuarioGeralService; 
 
 import javax.servlet.http.HttpSession;
 
@@ -94,6 +93,10 @@ public class LocacoesController {
         // Convert datetime string to LocalDateTime object using a custom DateTimeFormatter
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
         LocalDateTime locacaoLocalDateTime = LocalDateTime.parse(datetime, formatter);
+
+        if (locacaoLocalDateTime.isBefore(LocalDateTime.now())) {
+            return "redirect:/locar?error=pastTime";
+        }
 
         // Create the hourLocacao and hourDevolucao objects based on locacaoLocalDateTime
         LocalDateTime hourLocacao = truncateToHour(locacaoLocalDateTime);

@@ -22,7 +22,7 @@ public interface IUsuarioGeralService {
 
     void salvar(UsuarioGeral usuario);
 
-    List<UsuarioGeral> buscarPorCnpjInUsuarioLocadora();
+    List<UsuarioGeral> buscarPorCnpjemUsuarioLocadora();
 
     boolean existeNomeemUsuarioLocadora(String username);
 

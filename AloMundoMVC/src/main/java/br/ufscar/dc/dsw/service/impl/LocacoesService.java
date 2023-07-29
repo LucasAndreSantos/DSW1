@@ -1,5 +1,5 @@
 package br.ufscar.dc.dsw.service.impl;
-
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +21,10 @@ public class LocacoesService implements ILocacoesService {
 		dao.save(locacao);
 	}
 
+    public void excluir(Locacoes locacao) {
+		dao.delete(locacao);
+	}
+
     @Transactional(readOnly = true)
     public List<Locacoes> buscarPorCpf(String cpf) {
         return dao.findByCpf(cpf);
@@ -37,12 +41,12 @@ public class LocacoesService implements ILocacoesService {
     }
 
     @Transactional(readOnly = true)
-    public void contaPorCpf(String cpf, Date startTime, Date endTime) {
-        dao.countByCpfAndTimeRange(cpf, startTime, endTime);
+    public long contaPorCpf(String cpf, Date startTime, Date endTime) {
+        return dao.countByCpfAndTimeRange(cpf, startTime, endTime);
     }
 
     @Transactional(readOnly = true)
-    public void contaPorCnpj(String cnpj, Date startTime, Date endTime) {
-        dao.countByCnpjAndTimeRange(cnpj, startTime, endTime);
+    public long contaPorCnpj(String cnpj, Date startTime, Date endTime) {
+        return dao.countByCnpjAndTimeRange(cnpj, startTime, endTime);
     }
 }

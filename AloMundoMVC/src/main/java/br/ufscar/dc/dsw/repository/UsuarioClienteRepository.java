@@ -4,6 +4,9 @@ import br.ufscar.dc.dsw.model.UsuarioCliente;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import java.util.List;
+import java.util.Date;
+
 
 
 public interface UsuarioClienteRepository extends JpaRepository<UsuarioCliente, Long> {
