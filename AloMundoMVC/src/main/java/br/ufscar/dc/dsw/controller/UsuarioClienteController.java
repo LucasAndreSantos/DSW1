@@ -125,7 +125,7 @@ public class UsuarioClienteController {
         usuarioCliente.setDataDeNascimento(dataNascimento.toString());
 
     //if (usuarioClienteRepository.findByCpf(cpf_cnpj) == null){
-    if (usuarioClienteService.buscarPorCpf(cpf_cnpj) == null){
+    if (usuarioClienteService.buscarPorCpf(cpf_cnpj) == null && usuarioGeralService.buscarPorNome(username) == null){
         //usuarioGeralRepository.save(usuarioGeral);
         usuarioGeralService.salvar(usuarioGeral);
         //usuarioClienteRepository.save(usuarioCliente);
@@ -174,21 +174,27 @@ public class UsuarioClienteController {
 
         if (usuarioGeral != null && usuarioCliente != null) {
             // Update the UsuarioGeral and UsuarioCliente objects with new data
-            usuarioGeral.setUsername(username);
-            usuarioGeral.setEmail(email);
-            usuarioGeral.setHierarquia(hierarquiafinal);
-            usuarioGeral.setSenha(senha);
+            if ((usuarioGeral.getUsername() != username && usuarioGeralService.buscarPorNome(username) == null) || usuarioGeral.getUsername().equalsIgnoreCase(username)){
+                        
+                usuarioGeral.setUsername(username);
+                usuarioGeral.setEmail(email);
+                usuarioGeral.setHierarquia(hierarquiafinal);
+                usuarioGeral.setSenha(senha);
 
-            usuarioCliente.setSexo(sexo);
-            usuarioCliente.setTelefone(telefone);
-            usuarioCliente.setDataDeNascimento(dataNascimento.toString());
+                usuarioCliente.setSexo(sexo);
+                usuarioCliente.setTelefone(telefone);
+                usuarioCliente.setDataDeNascimento(dataNascimento.toString());
 
-            //usuarioGeralRepository.save(usuarioGeral);
-            usuarioGeralService.salvar(usuarioGeral);
-            //usuarioClienteRepository.save(usuarioCliente);
-            usuarioClienteService.salvar(usuarioCliente);
+                //usuarioGeralRepository.save(usuarioGeral);
+                usuarioGeralService.salvar(usuarioGeral);
+                //usuarioClienteRepository.save(usuarioCliente);
+                usuarioClienteService.salvar(usuarioCliente);
 
-            insertSuccess = true;
+                insertSuccess = true;
+            }
+            else{
+                insertSuccess = false;
+            }    
         } else {
             // If the user does not exist, handle the error (e.g., show an error message)
             insertSuccess = false;

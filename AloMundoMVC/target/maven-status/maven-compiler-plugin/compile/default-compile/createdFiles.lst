@@ -1,3 +1,4 @@
+br/ufscar/dc/dsw/config/WebConfig.class
 br/ufscar/dc/dsw/service/spec/IUsuarioGeralService.class
 br/ufscar/dc/dsw/model/UsuarioLocadora.class
 br/ufscar/dc/dsw/repository/UsuarioClienteRepository.class

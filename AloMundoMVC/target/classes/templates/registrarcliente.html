@@ -2,24 +2,58 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
   <title>Client Registration</title>
+  <script>
+    function removeFormatting() {
+      const cpfCnpjInput = document.getElementById("cpf_cnpj");
+      const telefoneInput = document.getElementById("telefone");
+      cpfCnpjInput.value = cpfCnpjInput.value.replace(/\D/g, '');
+      telefoneInput.value = telefoneInput.value.replace(/\D/g, '');
+    }
+    // Function to format CPF (Document) input
+    function formatCPF(input) {
+      let value = input.value.replace(/\D/g, '');
+      if (value.length > 11) {
+        value = value.slice(0, 11);
+      }
+      value = value.replace(/(\d{3})(\d)/, "$1.$2");
+      value = value.replace(/(\d{3})(\d)/, "$1.$2");
+      value = value.replace(/(\d{3})(\d)/, "$1-$2");
+      input.value = value;
+    }
+
+    // Function to format Phone input
+    function formatPhone(input) {
+      let value = input.value.replace(/\D/g, '');
+      if (value.length > 11) {
+        value = value.slice(0, 11);
+      }
+      if (value.length > 10) {
+        value = value.replace(/(\d{2})(\d)/, "($1) $2");
+      } else {
+        value = value.replace(/(\d{2})(\d)/, "($1) $2");
+        value = value.replace(/(\d{4})(\d)/, "$1-$2");
+      }
+      input.value = value;
+    }
+  </script>
 </head>
 <body>
   <h1>Client Registration</h1>
-  <form action="InsertCliente" method="post">
+  <form action="InsertCliente" method="post" onsubmit="removeFormatting()"> 
     <label for="username">Username:</label>
     <input type="text" name="username" id="username" required><br>
     
     <label for="cpf_cnpj">Document:</label>
-    <input type="text" name="cpf_cnpj" id="cpf_cnpj" required><br>
+    <input type="text" name="cpf_cnpj" id="cpf_cnpj" required oninput="formatCPF(this)"><br>
     
     <label for="email">Email:</label>
     <input type="email" name="email" id="email" required><br>
 
-    <label for="data">Birthday:</label>
+    <label for="datanascimento">Birthday:</label>
     <input type="date" name="datanascimento" id="datanascimento" required><br>
 
     <label for="telefone">Phone:</label>
-    <input type="number" name="telefone" id="telefone" required><br>
+    <input type="text" name="telefone" id="telefone" required oninput="formatPhone(this)"><br>
     
     <label for="Sexo">Gender:</label>
     <select name="Sexo" id="Sexo" required>

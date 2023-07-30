@@ -9,7 +9,7 @@ import br.ufscar.dc.dsw.model.Locacoes;
 import br.ufscar.dc.dsw.model.UsuarioGeral;
 
 
-//import br.ufscar.dc.dsw.repository.LocacoesRepository; 
+import br.ufscar.dc.dsw.repository.LocacoesRepository; 
 //import br.ufscar.dc.dsw.repository.UsuarioLocadoraRepository;
 //import br.ufscar.dc.dsw.repository.UsuarioGeralRepository;
 import br.ufscar.dc.dsw.service.spec.ILocacoesService;
@@ -40,8 +40,10 @@ public class LocacoesController {
 
     @Autowired
     private ILocacoesService locacoesService;
-    //private LocacoesRepository locacoesRepository;
-    
+
+    //@Autowired
+    private LocacoesRepository locacoesRepository;
+
     @Autowired
     private IUsuarioGeralService usuarioGeralService;
     //private UsuarioGeralRepository usuarioGeralRepository;
@@ -57,6 +59,24 @@ public class LocacoesController {
         model.addAttribute("usuarios", usuarios);
         return "testelocacoes";
     }
+
+    @GetMapping("/listalocacoes")
+    public String listRentals(Model model, HttpSession session) {
+        // Check if the user is logged in
+        UsuarioGeral user = (UsuarioGeral) session.getAttribute("user");
+        if (user == null) {
+            return "redirect:/loginpage";
+        }
+
+        // Retrieve locacoes based on the loggedInUser from the database
+        List<Locacoes> locacoes = locacoesService.buscarPorCnpjouCpf(user.getCpfCnpj());
+        model.addAttribute("user", user); // Use 'user' object instead of 'loggedInUser'
+        model.addAttribute("locacoes", locacoes);
+
+        return "listalocacoes"; // Return the Thymeleaf template name
+    }
+
+
 
 
     @GetMapping("/locar")

@@ -19,4 +19,6 @@ public interface ILocacoesService {
     long contaPorCpf(String cpf, Date startTime, Date endTime);
 
     long contaPorCnpj(String cnpj, Date startTime, Date endTime);
+    
+    List<Locacoes> buscarPorCnpjouCpf(String document);
 }

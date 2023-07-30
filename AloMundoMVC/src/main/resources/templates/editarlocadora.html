@@ -2,17 +2,43 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Client Update</title>
+    <script>
+        // Function to format CPF (Document) input
+        function formatCPF(input) {
+            let value = input.value.replace(/\D/g, '');
+            if (value.length > 11) {
+                value = value.slice(0, 11);
+            }
+            value = value.replace(/(\d{3})(\d)/, "$1.$2");
+            value = value.replace(/(\d{3})(\d)/, "$1.$2");
+            value = value.replace(/(\d{3})(\d)/, "$1-$2");
+            input.value = value;
+        }
+
+        // Function to remove formatting from CPF (Document) input
+        function removeFormattingCPF(input) {
+            input.value = input.value.replace(/\D/g, '');
+        }
+
+        // Function to remove formatting before form submission
+        function removeFormatting() {
+            const cpfInput = document.getElementById("cpf_cnpj");
+            cpfInput.value = cpfInput.value.replace(/\D/g, '');
+        }
+    </script>
 </head>
 <body>
     <h1>Client Update</h1>
-    <form action="UpdateLocadora" method="post" th:object="${usuarioCliente}">
+    <form action="UpdateLocadora" method="post" th:object="${usuarioCliente}" onsubmit="removeFormatting()">
         <!-- Username -->
         <label for="username">Username:</label>
         <input type="text" name="username" id="username" th:value="${usuarioGeral.username}" required><br>
 
         <!-- Document (CPF) -->
         <label for="cpf_cnpj">Document:</label>
-        <input type="text" name="cpf_cnpj" id="cpf_cnpj" th:value="${usuarioGeral.cpfCnpj}" required readonly><br>
+        <input type="text" name="cpf_cnpj" id="cpf_cnpj" th:value="${usuarioGeral.cpfCnpj}" required readonly oninput="formatCPF(this)"><br>
+        <!-- Hidden input field to store raw, unformatted data -->
+        <input type="hidden" name="cpf_cnpj_hidden" th:value="${usuarioGeral.cpfCnpj}" />
 
         <!-- Email -->
         <label for="email">Email:</label>
@@ -21,7 +47,6 @@
         <!-- City -->
         <label for="cidade">City:</label>
         <input type="text" name="cidade" id="cidade" th:value="${usuarioLocadora.cidade}" required><br>
-
 
         <!-- Password -->
         <label for="senha">Password:</label>

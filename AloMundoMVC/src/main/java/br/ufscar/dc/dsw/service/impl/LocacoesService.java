@@ -49,4 +49,10 @@ public class LocacoesService implements ILocacoesService {
     public long contaPorCnpj(String cnpj, Date startTime, Date endTime) {
         return dao.countByCnpjAndTimeRange(cnpj, startTime, endTime);
     }
+
+    @Transactional(readOnly = true)
+    public List<Locacoes> buscarPorCnpjouCpf(String document){
+        return dao.findByCpfOrCnpj(document);
+    }
+
 }

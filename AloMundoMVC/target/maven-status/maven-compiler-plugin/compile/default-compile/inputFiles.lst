@@ -16,6 +16,7 @@
 /home/paladino/Desktop/AloMundoMVC/src/main/java/br/ufscar/dc/dsw/controller/LoginController.java
 /home/paladino/Desktop/AloMundoMVC/src/main/java/br/ufscar/dc/dsw/service/spec/IUsuarioLocadoraService.java
 /home/paladino/Desktop/AloMundoMVC/src/main/java/br/ufscar/dc/dsw/service/spec/IUsuarioClienteService.java
+/home/paladino/Desktop/AloMundoMVC/src/main/java/br/ufscar/dc/dsw/config/WebConfig.java
 /home/paladino/Desktop/AloMundoMVC/src/main/java/br/ufscar/dc/dsw/controller/UsuarioLocadoraController.java
 /home/paladino/Desktop/AloMundoMVC/src/main/java/br/ufscar/dc/dsw/service/impl/UsuarioLocadoraService.java
 /home/paladino/Desktop/AloMundoMVC/src/main/java/br/ufscar/dc/dsw/model/Locacoes.java

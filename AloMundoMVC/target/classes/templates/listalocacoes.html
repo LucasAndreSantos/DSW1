@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>List of rentals of</title>
+</head>
+<body>
+    <h1>List of rentals of <span th:text="${user.username}"></span></h1>
+    <table>
+        <tr>
+            <th>Document of the lessor</th>
+            <th>Document of the lessee</th>
+            <th>Rental Time</th>
+            <th>Return Time</th>
+        </tr>
+        <tr th:each="locacao : ${locacoes}">
+            <td th:text="${locacao?.cpf}"></td>
+            <td th:text="${locacao?.cnpj}"></td>
+            <td th:text="${locacao?.horalocacao}"></td>
+            <td th:text="${locacao?.horadevolucao}"></td>
+        </tr>
+    </table>
+    <!-- Rest of the HTML content -->
+</body>
+</html>

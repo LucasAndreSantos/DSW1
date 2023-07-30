@@ -100,7 +100,7 @@ public class UsuarioLocadoraController {
         usuarioLocadora.setCnpj(cpf_cnpj);
         usuarioLocadora.setCidade(cidade);
         //if (usuarioLocadoraRepository.findByCnpj(cpf_cnpj) == null){
-        if (usuarioLocadoraService.buscarPorCnpj(cpf_cnpj) == null){
+        if (usuarioLocadoraService.buscarPorCnpj(cpf_cnpj) == null && usuarioGeralService.buscarPorNome(username) == null){
             //usuarioGeralRepository.save(usuarioGeral);
             usuarioGeralService.salvar(usuarioGeral);
             //usuarioLocadoraRepository.save(usuarioLocadora);
@@ -182,20 +182,25 @@ public class UsuarioLocadoraController {
         UsuarioLocadora usuarioLocadora = usuarioLocadoraService.buscarPorCnpj(cpf_cnpj);
 
         if (usuarioGeral != null && usuarioLocadora != null) {
-            // Update the UsuarioGeral and UsuarioLocadora objects with new data
-            usuarioGeral.setUsername(username);
-            usuarioGeral.setEmail(email);
-            usuarioGeral.setSenha(senha);
-            usuarioGeral.setHierarquia(0);
+            if ((usuarioGeral.getUsername() != username && usuarioGeralService.buscarPorNome(username) == null) || usuarioGeral.getUsername().equalsIgnoreCase(username)){
+                // Update the UsuarioGeral and UsuarioLocadora objects with new data
+                usuarioGeral.setUsername(username);
+                usuarioGeral.setEmail(email);
+                usuarioGeral.setSenha(senha);
+                usuarioGeral.setHierarquia(0);
 
-            usuarioLocadora.setCidade(cidade);
+                usuarioLocadora.setCidade(cidade);
 
-            //usuarioGeralRepository.save(usuarioGeral);
-            usuarioGeralService.salvar(usuarioGeral);
-            //usuarioLocadoraRepository.save(usuarioLocadora);
-            usuarioLocadoraService.salvar(usuarioLocadora);
+                //usuarioGeralRepository.save(usuarioGeral);
+                usuarioGeralService.salvar(usuarioGeral);
+                //usuarioLocadoraRepository.save(usuarioLocadora);
+                usuarioLocadoraService.salvar(usuarioLocadora);
 
-            insertSuccess = true;
+                insertSuccess = true;
+            }
+            else{
+                insertSuccess = false;
+            }    
         } else {
             // If the locadora does not exist, handle the error (e.g., show an error message)
             insertSuccess = false;

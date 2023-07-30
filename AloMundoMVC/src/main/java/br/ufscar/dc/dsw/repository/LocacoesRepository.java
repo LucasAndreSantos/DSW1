@@ -24,4 +24,7 @@ public interface LocacoesRepository extends JpaRepository<Locacoes, Long> {
     long countByCnpjAndTimeRange(@Param("cnpj") String cnpj,
                                  @Param("startTime") Date startTime,
                                  @Param("endTime") Date endTime);
+
+    @Query(value = "SELECT * FROM locacoes WHERE cpf = :document OR cnpj = :document", nativeQuery = true)
+    List<Locacoes> findByCpfOrCnpj(@Param("document") String document);                             
 }
