@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://silly.db.elephantsql.com:5432/wqykrjyw
+      - SPRING_DATASOURCE_USERNAME=wqykrjyw
+      - SPRING_DATASOURCE_PASSWORD=iSjKowwJs6i250W29mx5cZ6mWW4Hkg1E
+
