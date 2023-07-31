@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Bike shops available in this city</title>
+    <title th:text="#{bikeShops.title}">Bike shops available in this city</title>
 </head>
 <body>
-    <h1>Bike shops available in this city</h1>
-    <p>City: <span th:text="${cidade}"></span></p>
+    <h1 th:text="#{bikeShops.heading}">Bike shops available in this city</h1>
+    <p th:text="#{bikeShops.cityLabel}">City: <span th:text="${cidade}"></span></p>
     <ul>
         <li th:each="user : ${users}" th:text="${user}"></li>
     </ul>
-    <button onclick="window.location.href='/buscarcidades'">Go back</button>
+    <button th:text="#{bikeShops.goBackButton}" onclick="window.location.href='/buscarcidades'">Go back</button>
 </body>
 </html>

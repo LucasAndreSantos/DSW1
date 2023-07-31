@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Company Information</title>
+    <title th:text="#{companyInfo.title}">Company Information</title>
 </head>
 <body>
-    <h1>Company Information</h1>
-    <p>Username: <span th:text="${user.username}"></span></p>
-    <p>Email: <span th:text="${user.email}"></span></p>
-    <p>CPF/CNPJ: <span th:text="${user.cpfCnpj}"></span></p>
-    <p>City: <span th:text="${locadora.cidade}"></span></p>
+    <h1 th:text="#{companyInfo.heading}">Company Information</h1>
+    <p th:text="#{companyInfo.usernameLabel}">Username:</p> <span th:text="${user.username}"></span>
+    <p th:text="#{companyInfo.emailLabel}">Email:</p> <span th:text="${user.email}"></span>
+    <p th:text="#{companyInfo.cpfCnpjLabel}">CPF/CNPJ:</p> <span th:text="${user.cpfCnpj}"></span>
+    <p th:text="#{companyInfo.cityLabel}">City:</p> <span th:text="${locadora.cidade}"></span>
 </body>
 </html>

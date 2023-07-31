@@ -31,7 +31,8 @@ public class LoginController {
     @PostMapping("/login")
     public String login(@RequestParam String username, 
                         @RequestParam String password, 
-                        HttpSession session) {
+                        HttpSession session,
+                        Model model) {
 
         // Find the user by username from the repository
         //UsuarioGeral user = usuarioGeralRepository.findByUsername(username);
@@ -48,7 +49,8 @@ public class LoginController {
             return "redirect:/"; // Redirect to the home page or any other authenticated page
         } else {
             // Authentication failed, handle the error (e.g., show an error message)
-            return "redirect:/login?error=true"; // Redirect back to the login page with an error parameter
+            model.addAttribute("message", "Wrong login/password");
+            return "login"; // Redirect back to the login page with an error parameter
         }
     }
 }

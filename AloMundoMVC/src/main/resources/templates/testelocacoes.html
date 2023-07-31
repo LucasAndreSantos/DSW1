@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Listagem de Locações</title>
+    <title th:text="#{testelocacoesPage.title}">Listagem de Locações</title>
 </head>
 <body>
-    <h1>Listagem de Locações</h1>
+    <h1 th:text="#{testelocacoesPage.heading}">Listagem de Locações</h1>
     <table>
         <thead>
             <tr>
-                <th>ID</th>
-                <th>CPF</th>
-                <th>CNPJ</th>
-                <th>Horário de Locação</th>
-                <th>Horário de Devolução</th>
+                <th th:text="#{testelocacoesPage.idLabel}">ID</th>
+                <th th:text="#{testelocacoesPage.cpfLabel}">CPF</th>
+                <th th:text="#{testelocacoesPage.cnpjLabel}">CNPJ</th>
+                <th th:text="#{testelocacoesPage.rentalTimeLabel}">Horário de Locação</th>
+                <th th:text="#{testelocacoesPage.returnTimeLabel}">Horário de Devolução</th>
             </tr>
         </thead>
         <tbody>
@@ -29,4 +29,3 @@
     </table>
 </body>
 </html>
-

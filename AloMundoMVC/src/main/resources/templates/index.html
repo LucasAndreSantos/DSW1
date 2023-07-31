@@ -25,7 +25,7 @@
     <h2 th:text="#{welcome.message}">Welcome</h2> <h2><span th:text="${user.username}"></span></h2>
     <a href="adm" th:text="#{user.administration}">User Administration</a>
     <br>
-    <a href="listalocacoes" th:text="#{my.rentals}">My teste</a>
+    <a href="listalocacoes" th:text="#{my.rentals}">My Rentals</a>
   </div>
   <div class="welcome" th:unless="${user != null}">
     <a href="loginpage"><p th:text="#{login.required}">You need to login to perform certain actions.</p></a>

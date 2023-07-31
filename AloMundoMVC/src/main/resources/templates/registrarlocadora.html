@@ -40,37 +40,37 @@
   </script>
 </head>
 <body>
-  <h1>Rental Registration</h1>
+  <h1 th:text="#{rentalRegistration.title}">Rental Registration</h1>
   
   <div class="welcome">
-    <h2>Welcome to Rental Registration</h2>
+    <h2 th:text="#{rentalRegistration.welcomeMessage}">Welcome to Rental Registration</h2>
   </div>
   
   <form th:action="@{/Insertlocadora}" method="post" onsubmit="removeFormatting()">
-    <label for="username">Username:</label>
+    <label for="username" th:text="#{rentalRegistration.usernameLabel}">Username:</label>
     <input type="text" name="username" id="username" required><br>
     
-    <label for="cpf_cnpj">CNPJ:</label>
+    <label for="cpf_cnpj" th:text="#{rentalRegistration.cnpjLabel}">CNPJ:</label>
     <input type="text" name="cpf_cnpj" id="cpf_cnpj" required oninput="formatCNPJ(this)"><br>
     
-    <label for="email">Email:</label>
+    <label for="email" th:text="#{rentalRegistration.emailLabel}">Email:</label>
     <input type="email" name="email" id="email" required><br>
 
-    <label for="Cidade">City:</label>
+    <label for="Cidade" th:text="#{rentalRegistration.cityLabel}">City:</label>
     <input type="text" name="cidade" id="Cidade" required><br>
     
-    <label for="telefone">Telefone:</label>
+    <label for="telefone" th:text="#{rentalRegistration.phoneLabel}">Telefone:</label>
     <input type="text" name="telefone" id="telefone" required oninput="formatTelefone(this)"><br>
     
-    <label for="senha">Password:</label>
+    <label for="senha" th:text="#{rentalRegistration.passwordLabel}">Password:</label>
     <input type="password" name="senha" id="senha" required><br>
     
-    <button type="submit">Register</button>
+    <button type="submit" th:text="#{rentalRegistration.registerButton}">Register</button>
   </form>
 
   <div class="top-right">
     <form th:action="@{/CadastroLocadoraPT}" method="post">
-      <button type="submit">Português (BR)</button>
+      <button type="submit" th:text="#{rentalRegistration.portugueseButton}">Português (BR)</button>
     </form>
   </div>
 </body>
