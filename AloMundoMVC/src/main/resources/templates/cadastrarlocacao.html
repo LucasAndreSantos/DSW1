@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <title>Rent a Bicycle</title>
+  <title th:text="#{rental.title}">Rent a Bicycle</title>
   <style>
     .welcome {
       text-align: right;
@@ -20,22 +20,24 @@
   </style>
 </head>
 <body>
-  <h1>Bicycle Rental</h1>
+  <h1 th:text="#{rental.heading}">Bicycle Rental</h1>
   <div class="welcome" th:if="${user != null}">
-    <h2>Welcome <span th:text="${user.username}"></span></h2>
+    <h2>
+      <span th:text="#{rental.welcome}" th:text="${user.username}">Welcome [[${user.username}]]</span>
+    </h2>
   </div>
 
   <form action="CadastrarLocacao" method="post">
     <ul>
-      <label for="cidade">Company:</label>
+      <label for="cidade" th:text="#{rental.company.label}">Company:</label>
       <select name="cidade" id="cidade" required>
         <option th:each="usuario : ${usuariosGeral}" th:value="${usuario.cpfCnpj}" th:text="${usuario.username}"></option>
       </select>
       <br>
-      <label for="datetime">Date and Time:</label>
+      <label for="datetime" th:text="#{rental.datetime.label}">Date and Time:</label>
       <input type="datetime-local" name="datetime" id="datetime" required>
       <br>
-      <button type="submit">Submit</button>
+      <button type="submit" th:text="#{rental.submit}">Submit</button>
     </ul>
   </form>
   <div class="welcome" th:unless="${user != null}">
@@ -44,11 +46,11 @@
     </script>
   </div>
   <div th:switch="${error}">
-    <p th:case="'notAllowed'">Error: You are not allowed to perform this action as a usuariolocadora.</p>
-    <p th:case="'alreadyRented'">Error: You already have a rental during the selected hour.</p>
-    <p th:case="'notAvailable'">Error: The selected company already has a rental during the selected hour.</p>
-    <p th:case="'success'">Success: Rental has been created successfully.</p>
-    <p th:case="'pastTime'">Error: You are tryig o book something in the past.</p>
+    <p th:case="'notAllowed'" th:text="#{rental.error.notAllowed}">Error: You are not allowed to perform this action as a usuariolocadora.</p>
+    <p th:case="'alreadyRented'" th:text="#{rental.error.alreadyRented}">Error: You already have a rental during the selected hour.</p>
+    <p th:case="'notAvailable'" th:text="#{rental.error.notAvailable}">Error: The selected company already has a rental during the selected hour.</p>
+    <p th:case="'success'" th:text="#{rental.success}">Success: Rental has been created successfully.</p>
+    <p th:case="'pastTime'" th:text="#{rental.error.pastTime}">Error: You are trying to book something in the past.</p>
     <!-- Add more cases as needed -->
   </div>
 </body>

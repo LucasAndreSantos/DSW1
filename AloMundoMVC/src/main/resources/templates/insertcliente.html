@@ -1,20 +1,19 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <title>Insert Result</title>
+  <title th:text="#{insertResult.title}">Insert Result</title>
 </head>
 <body>
-  <h1>Insert Result</h1>
-  <p>Value of insertSuccess: <span th:text="${insertSuccess}"></span></p>
+  <h1 th:text="#{insertResult.heading}">Insert Result</h1>
   <div th:if="${insertSuccess}">
-    <p>Successful!</p>
+    <p th:text="#{insertResult.success}">Successful!</p>
   </div>
   <div th:unless="${insertSuccess}">
-    <p>Failed.</p>
+    <p th:text="#{insertResult.failure}">Failed. Username or CNPJ already in use.</p>
   </div>
 
   <form action="adm">
-    <button type="submit">Go Back</button>
+    <button type="submit" th:text="#{insertResult.goBack}">Go Back</button>
   </form>
 </body>
 </html>

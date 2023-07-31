@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <title>User administration</title>
+  <title th:text="#{admin.title}">User administration</title>
 </head>
 <script>
   function redirectToReadLocadora() {
@@ -11,41 +11,41 @@
   }
 </script>
 <body>
-  <h1>User administration</h1>
+  <h1 th:text="#{admin.heading}">User administration</h1>
 
   <form th:action="@{/user}" method="get">
-    <label for="usuariolocadora">Company:</label>
+    <label for="usuariolocadora" th:text="#{admin.company.label}">Company:</label>
     <select id="usuariolocadora" name="usuariolocadora">
       <!-- Options for company (usuariolocadora) -->
       <!-- Use Thymeleaf to iterate over the list of commercial partners -->
       <option th:each="partner : ${commercialpartners}" th:value="${partner}" th:text="${partner}"></option>
     </select>
     <br>
-    <button type="submit" formaction="readlocadora">Consult</button>
-    <button type="submit" formaction="registrarlocadora" name="action" value="createLocadora">Create</button>
-    <button type="submit" name="action" formaction="editarlocadora" value="updateLocadora">Update</button>
-    <button type="submit" name="action" formaction="deleteLocadora" value="deleteLocadora">Delete</button>
+    <button type="submit" formaction="readlocadora" th:text="#{admin.company.consult}">Consult</button>
+    <button type="submit" formaction="registrarlocadora" name="action" value="createLocadora" th:text="#{admin.company.create}">Create</button>
+    <button type="submit" name="action" formaction="editarlocadora" value="updateLocadora" th:text="#{admin.company.update}">Update</button>
+    <button type="submit" name="action" formaction="deleteLocadora" value="deleteLocadora" th:text="#{admin.company.delete}">Delete</button>
     <br><br>
-    <label for="usuariocliente">Client:</label>
+    <label for="usuariocliente" th:text="#{admin.client.label}">Client:</label>
     <select id="usuariocliente" name="usuariocliente">
       <!-- Options for client (usuariocliente) -->
       <!-- Use Thymeleaf to iterate over the list of all clients -->
       <option th:each="client : ${allclients}" th:value="${client}" th:text="${client}"></option>
     </select>
     <br>
-    <button type="submit" name="username" th:value="${username}">Consult</button>
-    <button type="submit" formaction="registrarcliente" name="action" value="createCliente">Create</button>
-    <button type="submit" name="action" formaction="editarcliente" value="updateCliente">Update</button>
-    <button type="submit" name="action" formaction="deletecliente" value="deleteCliente">Delete</button>
+    <button type="submit" name="username" th:value="${username}" th:text="#{admin.client.consult}">Consult</button>
+    <button type="submit" formaction="registrarcliente" name="action" value="createCliente" th:text="#{admin.client.create}">Create</button>
+    <button type="submit" name="action" formaction="editarcliente" value="updateCliente" th:text="#{admin.client.update}">Update</button>
+    <button type="submit" name="action" formaction="deletecliente" value="deleteCliente" th:text="#{admin.client.delete}">Delete</button>
   </form>
 
   <div class="top-right">
     <form action="admPT.jsp">
-      <button type="submit">Português (BR)</button>
+      <button type="submit" th:text="#{language.portuguese}">Português (BR)</button>
     </form>
   </div>
   <form action="index.jsp">
-    <button type="submit">Go back</button>
+    <button type="submit" th:text="#{general.goBack}">Go back</button>
   </form>
 </body>
 </html>

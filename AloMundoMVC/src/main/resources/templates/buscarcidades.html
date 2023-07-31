@@ -1,17 +1,18 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <title>Cities with available bike rental shops</title>
+  <title th:text="#{cities.title}">Cities with available bike rental shops</title>
 </head>
 <body>
-  <h1>Cities with available bike rental shops</h1>
-  <button style="position: absolute; top: 10px; right: 10px;" th:onclick="|window.location.href='CidadesPT.jsp'|">Português</button>
+  <h1 th:text="#{cities.heading}">Cities with available bike rental shops</h1>
+  <button style="position: absolute; top: 10px; right: 10px;" th:onclick="|window.location.href='CidadesPT.jsp'|"
+    th:text="#{language.portuguese}">Português</button>
   <form th:action="@{/resultadocidades}" method="post">
     <ul>
       <select name="cidade" id="cidade" required>
         <option th:each="cidade : ${cidades}" th:value="${cidade}" th:text="${cidade}"></option>
       </select>
-      <button type="submit">Submit</button>
+      <button type="submit" th:text="#{cities.submit}">Submit</button>
     </ul>
   </form>
 </body>
