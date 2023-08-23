@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title th:text="#{cities.title}">Cities with available bike rental shops</title>
+</head>
+<body>
+  <h1 th:text="#{cities.heading}">Cities with available bike rental shops</h1>
+  <form th:action="@{/resultadocidades}" method="post">
+    <ul>
+      <select name="cidade" id="cidade" required>
+        <option th:each="cidade : ${cidades}" th:value="${cidade}" th:text="${cidade}"></option>
+      </select>
+      <button type="submit" th:text="#{cities.submit}">Submit</button>
+    </ul>
+  </form>
+  <form action="/">
+    <button type="submit" th:text="#{general.goBack}">Go back</button>
+  </form>
+</body>
+</html>

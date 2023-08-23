@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="#{companyInfo.title}">Company Information</title>
+</head>
+<body>
+    <h1 th:text="#{companyInfo.heading}">Company Information</h1>
+    <p th:text="#{companyInfo.usernameLabel}">Username:</p> <span th:text="${user.username}"></span>
+    <p th:text="#{companyInfo.emailLabel}">Email:</p> <span th:text="${user.email}"></span>
+    <p th:text="#{companyInfo.cpfCnpjLabel}">CPF/CNPJ:</p> <span th:text="${user.cpfCnpj}"></span>
+    <p th:text="#{companyInfo.cityLabel}">City:</p> <span th:text="${locadora.cidade}"></span>
+    <form action="/adm">
+        <button type="submit" th:text="#{general.goBack}">Go back</button>
+    </form>
+</body>
+</html>

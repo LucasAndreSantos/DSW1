@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="#{testelocacoesPage.title}">Listagem de Locações</title>
+</head>
+<body>
+    <h1 th:text="#{testelocacoesPage.heading}">Listagem de Locações</h1>
+    <table>
+        <thead>
+            <tr>
+                <th th:text="#{testelocacoesPage.idLabel}">ID</th>
+                <th th:text="#{testelocacoesPage.cpfLabel}">CPF</th>
+                <th th:text="#{testelocacoesPage.cnpjLabel}">CNPJ</th>
+                <th th:text="#{testelocacoesPage.rentalTimeLabel}">Horário de Locação</th>
+                <th th:text="#{testelocacoesPage.returnTimeLabel}">Horário de Devolução</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Use th:each to iterate over the usuarios list -->
+            <tr th:each="usuario : ${usuarios}">
+                <!-- Access the properties of each Usuario object -->
+                <td th:text="${usuario.id}"></td>
+                <td th:text="${usuario.cpf}"></td>
+                <td th:text="${usuario.cnpj}"></td>
+                <td th:text="${usuario.horalocacao}"></td>
+                <td th:text="${usuario.horadevolucao}"></td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title th:text="#{insertResult.title}">Insert Result</title>
+</head>
+<body>
+  <h1 th:text="#{insertResult.heading}">Insert Result</h1>
+  <div th:if="${insertSuccess}">
+    <p th:text="#{insertResult.success}">Successful!</p>
+  </div>
+  <div th:unless="${insertSuccess}">
+    <p th:text="#{insertResult.failure}">Failed. Username or CNPJ already in use.</p>
+  </div>
+
+  <form action="adm">
+    <button type="submit" th:text="#{insertResult.goBack}">Go Back</button>
+  </form>
+</body>
+</html>

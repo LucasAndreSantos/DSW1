@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="#{userinfoPage.title}">User Information</title>
+</head>
+<body>
+    <h1 th:text="#{userinfoPage.heading}">User Information</h1>
+    <p>Username: <span th:text="${user.username}"></span></p>
+    <p>Email: <span th:text="${user.email}"></span></p>
+    <p th:text="#{userinfoPage.cpfLabel}">CPF:</p>
+    <p><span th:text="${cliente.cpf}"></span></p>
+    <p th:text="#{userinfoPage.genderLabel}">Gender:</p>
+    <p><span th:text="${cliente.sexo}"></span></p>
+    <p th:text="#{userinfoPage.phoneLabel}">Phone:</p>
+    <p><span th:text="${cliente.telefone}"></span></p>
+    <p th:text="#{userinfoPage.birthdayLabel}">Birthday:</p>
+    <p><span th:text="${cliente.dataDeNascimento}"></span></p>
+    <!-- Display other user properties as needed -->
+    <form action="/adm">
+        <button type="submit" th:text="#{general.goBack}">Go back</button>
+    </form>
+</body>
+</html>

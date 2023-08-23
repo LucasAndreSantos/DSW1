@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="#{testeClienteLocadoraPage.title}">List of Usuario Locadora</title>
+</head>
+<body>
+    <h1 th:text="#{testeClienteLocadoraPage.heading}">List of Usuario Locadora</h1>
+    <table>
+        <thead>
+            <tr>
+                <th th:text="#{testeClienteLocadoraPage.cnpjLabel}">CNPJ</th>
+                <th th:text="#{testeClienteLocadoraPage.cityLabel}">Cidade</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Loop through the list of UsuarioLocadora and display their information -->
+            <tr th:each="usuario : ${usuarios}">
+                <td th:text="${usuario.cnpj}"></td>
+                <td th:text="${usuario.cidade}"></td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

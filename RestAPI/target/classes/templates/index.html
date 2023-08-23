@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title th:text="#{title}">Bicycle Rental</title>
+  <style>
+    .welcome {
+      text-align: right;
+    }
+
+    .left-link {
+      float: left;
+      margin-right: 20px;
+    }
+
+    .top-right {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1 th:text="#{bicycle.rental}">Bicycle Rental</h1>
+  <div class="welcome" th:if="${user != null}">
+    <h2 th:text="#{welcome.message}">Welcome</h2> <h2><span th:text="${user.username}"></span></h2>
+    <a href="adm" th:text="#{user.administration}">User Administration</a>
+    <br>
+    <a href="listalocacoes" th:text="#{my.rentals}">My Rentals</a>
+  </div>
+  <div class="welcome" th:unless="${user != null}">
+    <a href="loginpage"><p th:text="#{login.required}">You need to login to perform certain actions.</p></a>
+  </div>
+  <div class="left-link">
+    <a href="locar" th:text="#{rent.bicycle}">Rent Bicycle</a>
+    <br>
+    <a href="comercialpartners" th:text="#{business.partners}">Our Business Partners</a>
+    <br>
+    <a href="buscarcidades" th:text="#{find.shop}">Find a Shop in Your City!</a>
+  </div>
+</body>
+</html>

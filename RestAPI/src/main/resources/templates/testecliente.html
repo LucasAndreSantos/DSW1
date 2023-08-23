@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="#{testeClientePage.title}">Lista de Usuarios</title>
+</head>
+<body>
+    <h1 th:text="#{testeClientePage.heading}">List of Usuarios</h1>
+    <table>
+        <thead>
+            <tr>
+                <th th:text="#{testeClientePage.cpfCnpjLabel}">CPF/CNPJ</th>
+                <th th:text="#{testeClientePage.genderLabel}">Sexo</th>
+                <th th:text="#{testeClientePage.phoneLabel}">Telefone</th>
+                <th th:text="#{testeClientePage.birthDateLabel}">Data de Nascimento</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Loop through the list of usuarios and display their information -->
+            <tr th:each="usuario : ${usuarios}">
+                <td th:text="${usuario.cpf}"></td>
+                <td th:text="${usuario.sexo}"></td>
+                <td th:text="${usuario.telefone}"></td>
+                <td th:text="${usuario.dataDeNascimento}"></td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

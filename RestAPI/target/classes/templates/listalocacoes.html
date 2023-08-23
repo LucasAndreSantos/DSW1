@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="#{rentalList.title}">List of rentals of</title>
+</head>
+<body>
+    <h1 th:text="#{rentalList.heading}">List of rentals of</h1> 
+    <h2><span th:text="${user.username}"></span></h2>
+    <table>
+        <tr>
+            <th th:text="#{rentalList.lessorDocument}">Document of the lessor</th>
+            <th th:text="#{rentalList.lesseeDocument}">Document of the lessee</th>
+            <th th:text="#{rentalList.rentalTime}">Rental Time</th>
+            <th th:text="#{rentalList.returnTime}">Return Time</th>
+        </tr>
+        <tr th:each="locacao : ${locacoes}">
+            <td th:text="${locacao?.cpf}"></td>
+            <td th:text="${locacao?.cnpj}"></td>
+            <td th:text="${locacao?.horalocacao}"></td>
+            <td th:text="${locacao?.horadevolucao}"></td>
+        </tr>
+    </table>
+    <form action="/">
+        <button type="submit" th:text="#{general.goBack}">Go back</button>
+    </form>
+</body>
+</html>
