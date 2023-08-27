@@ -8,21 +8,14 @@ import br.ufscar.dc.dsw.model.UsuarioCliente;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-
-
-//import br.ufscar.dc.dsw.repository.UsuarioClienteRepository; 
-//import br.ufscar.dc.dsw.repository.LocacoesRepository; 
-//import br.ufscar.dc.dsw.repository.UsuarioGeralRepository;
+import java.util.Arrays;
 import br.ufscar.dc.dsw.service.spec.IUsuarioClienteService;
 import br.ufscar.dc.dsw.service.spec.IUsuarioGeralService;
 import br.ufscar.dc.dsw.service.spec.ILocacoesService;
-
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -35,12 +28,14 @@ import br.ufscar.dc.dsw.service.impl.UsuarioClienteService;
 import java.util.List;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
-
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import br.ufscar.dc.dsw.model.UsuarioCliente;
 import br.ufscar.dc.dsw.model.UsuarioGeral;
 import br.ufscar.dc.dsw.model.Locacoes;
@@ -54,6 +49,62 @@ public class UsuarioClienteController {
 
     private final IUsuarioClienteService usuarioClienteService;
     private final IUsuarioGeralService usuarioGeralService;
+
+    private boolean isValidDataNascimentoFormat(String dataNascimento) {
+        // Define a regular expression pattern for date of birth validation (YYYY-MM-DD)
+        String dataNascimentoPattern = "\\d{4}-\\d{2}-\\d{2}";
+
+        // Use the matches() method to check if the date of birth matches the pattern
+        return dataNascimento.matches(dataNascimentoPattern);
+    }
+
+    private boolean isValidDataNascimento(String dataNascimento) {
+        // Assuming that dates in the future are not allowed, you can implement a check here
+        // to ensure that the provided date of birth is not in the future.
+        // You might also want to check the age to ensure it's within a valid range.
+
+        // For example, if you want to validate that the provided date of birth is not in the future:
+        LocalDate currentDate = LocalDate.now();
+        LocalDate providedDate = LocalDate.parse(dataNascimento);
+
+        return !providedDate.isAfter(currentDate);
+    }
+
+
+    private boolean isValidTelefoneFormat(String telefone) {
+        // Define a regular expression pattern for telephone number validation
+        String telefonePattern = "\\d{11}";
+
+        // Use the matches() method to check if the telephone number matches the pattern and has the right length
+        return telefone.matches(telefonePattern);
+    }
+
+    private boolean isValidSexoInput(String sexo) {
+        // Define valid sexo values (assuming "Masculino" and "Feminino" are the only valid inputs)
+        String[] validSexoValues = {"Masculino", "Feminino"};
+
+        // Use Arrays.asList() to convert the array into a List for easy validation
+        List<String> validSexoList = Arrays.asList(validSexoValues);
+
+        // Check if the provided sexo input is valid
+        return validSexoList.contains(sexo);
+    }
+
+    private boolean isValidCpfFormat(String cpf) {
+        // Define a regular expression pattern for CPF validation
+        String cpfPattern = "\\d{11}";
+
+        // Use the matches() method to check if the CPF matches the pattern and has the right length
+        return cpf.matches(cpfPattern);
+    }
+
+    private boolean isValidEmailFormat(String email) {
+        // Define a regular expression pattern for email validation
+        String emailPattern = "^[A-Za-z0-9+_.-]+@(.+)$";
+
+        // Use the matches() method to check if the email matches the pattern
+        return email.matches(emailPattern);
+    }
 
     @Autowired
     public UsuarioClienteController(IUsuarioClienteService usuarioClienteService, IUsuarioGeralService usuarioGeralService) {
@@ -89,19 +140,48 @@ public class UsuarioClienteController {
     // ... other endpoints ...
 
     @PostMapping("/cliente/{cpf}")
-    public ResponseEntity<String> updateClienteApi(@RequestParam String username,
-                                                   @PathVariable String cpf,
-                                                   @RequestParam String email,
-                                                   @RequestParam String sexo,
-                                                   @RequestParam String telefone,
-                                                   @RequestParam String dataNascimento,
-                                                   @RequestParam String senha) {
-
-        boolean insertSuccess = true;
+    public ResponseEntity<String> updateClienteApi(@RequestBody Map<String, String> requestData) {
+        String username = requestData.get("username");
+        String cpf = requestData.get("cpf");
+        String email = requestData.get("email");
+        String sexo = requestData.get("sexo");
+        String telefone = requestData.get("telefone");
+        String dataNascimento = requestData.get("dataNascimento");
+        String senha = requestData.get("senha");
+        boolean insertSuccess = false;
         int hierarquiafinal = 0;
 
         UsuarioGeral usuarioGeral = usuarioGeralService.buscarPorCpfCnpj(cpf);
         UsuarioCliente usuarioCliente = usuarioClienteService.buscarPorCpf(cpf);
+
+        if (!isValidDataNascimentoFormat(dataNascimento)) {
+            return new ResponseEntity<>("Invalid dataNascimento format", HttpStatus.BAD_REQUEST);
+        }
+
+        // Check if the provided dataNascimento is valid (not in the future)
+        if (!isValidDataNascimento(dataNascimento)) {
+            return new ResponseEntity<>("Invalid dataNascimento", HttpStatus.BAD_REQUEST);
+        }
+
+        // Check if the provided telefone is in a valid format
+        if (!isValidTelefoneFormat(telefone)) {
+            return new ResponseEntity<>("Invalid telefone format", HttpStatus.BAD_REQUEST);
+        }
+
+        // Check if the provided sexo input is valid
+        if (!isValidSexoInput(sexo)) {
+            return new ResponseEntity<>("Invalid sexo input", HttpStatus.BAD_REQUEST);
+        }
+
+        // Check if the provided email is in a valid format
+        if (!isValidEmailFormat(email)) {
+            return new ResponseEntity<>("Invalid email format", HttpStatus.BAD_REQUEST);
+        }
+
+        // Check if the provided CPF is in a valid format and has the right length
+        if (!isValidCpfFormat(cpf)) {
+            return new ResponseEntity<>("Invalid CPF format", HttpStatus.BAD_REQUEST);
+        }
 
         if (usuarioGeral != null && usuarioCliente != null) {
             if ((usuarioGeral.getUsername() != username && usuarioGeralService.buscarPorNome(username) == null) || usuarioGeral.getUsername().equalsIgnoreCase(username)){
@@ -123,7 +203,7 @@ public class UsuarioClienteController {
                 insertSuccess = false;
             }    
         } else {
-            insertSuccess = false;
+            return new ResponseEntity<>("CPF or Username aleready in use", HttpStatus.BAD_REQUEST);
         }
 
         if (insertSuccess) {
@@ -134,16 +214,46 @@ public class UsuarioClienteController {
     }
 
     @PostMapping("/cliente")
-    public ResponseEntity<String> insertClienteApi(@RequestParam String username,
-                                                   @RequestParam String cpf,
-                                                   @RequestParam String email,
-                                                   @RequestParam String sexo,
-                                                   @RequestParam String telefone,
-                                                   @RequestParam String dataNascimento,
-                                                   @RequestParam String senha) {
-
-        boolean insertSuccess = true;
+    public ResponseEntity<String> insertClienteApi(@RequestBody Map<String, String> requestData) {
+        String username = requestData.get("username");
+        String cpf = requestData.get("cpf");
+        String email = requestData.get("email");
+        String sexo = requestData.get("sexo");
+        String telefone = requestData.get("telefone");
+        String dataNascimento = requestData.get("dataNascimento");
+        String senha = requestData.get("senha");
+        boolean insertSuccess = false;
         int hierarquiafinal = 0;
+
+        if (!isValidDataNascimentoFormat(dataNascimento)) {
+            return new ResponseEntity<>("Invalid dataNascimento format", HttpStatus.BAD_REQUEST);
+        }
+
+        // Check if the provided dataNascimento is valid (not in the future)
+        if (!isValidDataNascimento(dataNascimento)) {
+            return new ResponseEntity<>("Invalid dataNascimento", HttpStatus.BAD_REQUEST);
+        }
+
+        // Check if the provided telefone is in a valid format
+        if (!isValidTelefoneFormat(telefone)) {
+            return new ResponseEntity<>("Invalid telefone format", HttpStatus.BAD_REQUEST);
+        }
+
+        // Check if the provided sexo input is valid
+        if (!isValidSexoInput(sexo)) {
+            return new ResponseEntity<>("Invalid sexo input", HttpStatus.BAD_REQUEST);
+        }
+
+        
+        // Check if the provided email is in a valid format
+        if (!isValidEmailFormat(email)) {
+            return new ResponseEntity<>("Invalid email format", HttpStatus.BAD_REQUEST);
+        }
+
+        // Check if the provided CPF is in a valid format and has the right length
+        if (!isValidCpfFormat(cpf)) {
+            return new ResponseEntity<>("Invalid CPF format", HttpStatus.BAD_REQUEST);
+        }
 
         UsuarioGeral usuarioGeral = new UsuarioGeral();
         usuarioGeral.setUsername(username);
@@ -163,7 +273,7 @@ public class UsuarioClienteController {
             usuarioClienteService.salvar(usuarioCliente);
             insertSuccess = true;
         } else {
-            insertSuccess = false;
+            return new ResponseEntity<>("CPF or Username aleready in use", HttpStatus.BAD_REQUEST);
         }
 
         if (insertSuccess) {

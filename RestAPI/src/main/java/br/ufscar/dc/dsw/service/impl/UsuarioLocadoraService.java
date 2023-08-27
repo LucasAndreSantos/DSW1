@@ -36,6 +36,11 @@ public class UsuarioLocadoraService implements IUsuarioLocadoraService {
     }
 
     @Transactional(readOnly = true)
+    public List<UsuarioLocadora> buscarPorCidade(String cidade) {
+        return dao.findByCidade(cidade);
+    }
+
+    @Transactional(readOnly = true)
     public UsuarioLocadora buscarPorCnpj(String cnpj) {
         return dao.findByCnpj(cnpj);
     }

@@ -14,6 +14,8 @@ public interface ILocacoesService {
 
     List<Locacoes> buscarPorCnpj(String cnpj);
 
+    Locacoes buscarPorId(long id);
+
     List<Locacoes> buscarTodos();
 
     long contaPorCpf(String cpf, Date startTime, Date endTime);

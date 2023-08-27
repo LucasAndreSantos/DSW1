@@ -12,6 +12,8 @@ public interface LocacoesRepository extends JpaRepository<Locacoes, Long> {
 
     List<Locacoes> findByCnpj(String cnpj);
 
+    Locacoes findById(long id);
+
     List<Locacoes> findAll();
 
     // Count the number of rentals for a given CPF that overlap with the specified time range

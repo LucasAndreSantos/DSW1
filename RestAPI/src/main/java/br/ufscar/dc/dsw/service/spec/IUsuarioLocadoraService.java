@@ -10,6 +10,8 @@ public interface IUsuarioLocadoraService {
 
     List<String> buscarNomePorCidade(String cidade);
 
+    List<UsuarioLocadora> buscarPorCidade(String cidade);
+
     UsuarioLocadora buscarPorCnpj(String cnpj);
 
     void excluir(UsuarioLocadora locadora);

@@ -17,19 +17,13 @@ import br.ufscar.dc.dsw.model.Locacoes;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-//import br.ufscar.dc.dsw.repository.UsuarioLocadoraRepository;
-//import br.ufscar.dc.dsw.repository.UsuarioGeralRepository;
-//import br.ufscar.dc.dsw.repository.LocacoesRepository;
 import br.ufscar.dc.dsw.service.spec.IUsuarioLocadoraService;
 import br.ufscar.dc.dsw.service.spec.IUsuarioGeralService;
 import br.ufscar.dc.dsw.service.spec.ILocacoesService;
-
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -40,6 +34,22 @@ public class UsuarioLocadoraController {
     private final IUsuarioLocadoraService usuarioLocadoraService;
     private final IUsuarioGeralService usuarioGeralService;
     private final ILocacoesService locacoesService;
+
+    private boolean isValidEmailFormat(String email) {
+        // Define a regular expression pattern for email validation
+        String emailPattern = "^[A-Za-z0-9+_.-]+@(.+)$";
+
+        // Use the matches() method to check if the email matches the pattern
+        return email.matches(emailPattern);
+    }
+
+    private boolean isValidCnpjFormat(String cnpj) {
+        // Define a regular expression pattern for CNPJ validation
+        String cnpjPattern = "\\d{14}";
+
+        // Use the matches() method to check if the CNPJ matches the pattern and has the right length
+        return cnpj.matches(cnpjPattern);
+    }
 
     @Autowired
     public UsuarioLocadoraController(IUsuarioLocadoraService usuarioLocadoraService,
@@ -74,7 +84,7 @@ public class UsuarioLocadoraController {
     }
 
     @GetMapping("/locadora/{id}")
-    public ResponseEntity<Map<String, Object>> getCombinedLocadoraById(@PathVariable String id) {
+    public ResponseEntity<Map<String, Object>> getLocadoraById(@PathVariable String id) {
         UsuarioLocadora usuarioLocadora = usuarioLocadoraService.buscarPorCnpj(id);
         if (usuarioLocadora != null) {
             UsuarioGeral usuarioGeral = usuarioGeralService.buscarPorCpfCnpj(id);
@@ -93,14 +103,37 @@ public class UsuarioLocadoraController {
         }
     }
 
+    @GetMapping("/locadora/cidades/{id}")
+    public ResponseEntity<List<Map<String, Object>>> getCombinedLocadoraById(@PathVariable String id) {
+        List<UsuarioLocadora> cidades = usuarioLocadoraService.buscarPorCidade(id);
+        List<Map<String, Object>> combinedUserInfos = new ArrayList<>();
+
+        for (UsuarioLocadora cidadeInfo : cidades) {
+            String cnpj = cidadeInfo.getCnpj();
+            UsuarioGeral usuarioGeral = usuarioGeralService.buscarPorCpfCnpj(cnpj);
+
+            Map<String, Object> combinedUserInfo = new HashMap<>();
+            combinedUserInfo.put("cpfCnpj", usuarioGeral.getCpfCnpj());
+            combinedUserInfo.put("username", usuarioGeral.getUsername());
+            combinedUserInfo.put("email", usuarioGeral.getEmail());
+            combinedUserInfo.put("hierarquia", usuarioGeral.isHierarquia());
+            combinedUserInfo.put("senha", usuarioGeral.getSenha());
+            combinedUserInfo.put("cidade", cidadeInfo.getCidade());
+
+            combinedUserInfos.add(combinedUserInfo);
+        }
+
+        return ResponseEntity.ok(combinedUserInfos);
+    }
+
 
     @PostMapping("/locadora/{cpf_cnpj}")
-    public ResponseEntity<String> updateLocadoraApi(@RequestParam String username,
-                                                    @PathVariable String cpf_cnpj,
-                                                    @RequestParam String email,
-                                                    @RequestParam String cidade,
-                                                    @RequestParam String senha) {
-
+    public ResponseEntity<String> updateLocadoraApi(@RequestBody Map<String, String> requestData) {
+        String username = requestData.get("username");
+        String cpf_cnpj = requestData.get("cpfCnpj");
+        String email = requestData.get("email");
+        String cidade = requestData.get("cidade");
+        String senha = requestData.get("senha");
         boolean insertSuccess = true;
         int hierarquiafinal = 0;
 
@@ -110,6 +143,15 @@ public class UsuarioLocadoraController {
         //UsuarioLocadora usuarioLocadora = usuarioLocadoraRepository.findByCnpj(cpf_cnpj);
         UsuarioLocadora usuarioLocadora = usuarioLocadoraService.buscarPorCnpj(cpf_cnpj);
 
+            // Check if the provided email is in a valid format
+        if (!isValidEmailFormat(email)) {
+            return new ResponseEntity<>("Invalid email format", HttpStatus.BAD_REQUEST);
+        }
+
+        // Check if the provided CNPJ is in a valid format and has the right length
+        if (!isValidCnpjFormat(cpf_cnpj)) {
+            return new ResponseEntity<>("Invalid CNPJ format", HttpStatus.BAD_REQUEST);
+        }
 
         if (usuarioGeral != null && usuarioLocadora != null) {
             if ((usuarioGeral.getUsername() != username && usuarioGeralService.buscarPorNome(username) == null) || usuarioGeral.getUsername().equalsIgnoreCase(username)){
@@ -143,16 +185,25 @@ public class UsuarioLocadoraController {
         }
     }    
 
-
     @PostMapping("/locadora")
-    public ResponseEntity<String> insertLocadoraApi(@RequestParam String username,
-                                                    @RequestParam String cpf_cnpj,
-                                                    @RequestParam String email,
-                                                    @RequestParam String cidade,
-                                                    @RequestParam String senha) {
-
+    public ResponseEntity<String> insertLocadoraApi(@RequestBody Map<String, String> requestData) {
+        String username = requestData.get("username");
+        String cpf_cnpj = requestData.get("cpfCnpj");
+        String email = requestData.get("email");
+        String cidade = requestData.get("cidade");
+        String senha = requestData.get("senha");
         boolean insertSuccess = true;
         int hierarquiafinal = 0;
+
+            // Check if the provided email is in a valid format
+        if (!isValidEmailFormat(email)) {
+            return new ResponseEntity<>("Invalid email format", HttpStatus.BAD_REQUEST);
+        }
+
+        // Check if the provided CNPJ is in a valid format and has the right length
+        if (!isValidCnpjFormat(cpf_cnpj)) {
+            return new ResponseEntity<>("Invalid CNPJ format", HttpStatus.BAD_REQUEST);
+        }
 
         UsuarioGeral usuarioGeral = new UsuarioGeral();
         usuarioGeral.setUsername(username);
