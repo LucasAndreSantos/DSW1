@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import br.ufscar.dc.dsw.model.UsuarioCliente;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -139,10 +140,9 @@ public class UsuarioClienteController {
 
     // ... other endpoints ...
 
-    @PostMapping("/cliente/{cpf}")
-    public ResponseEntity<String> updateClienteApi(@RequestBody Map<String, String> requestData) {
+    @PutMapping("/cliente/{cpf}")
+    public ResponseEntity<String> updateClienteApi(@RequestBody Map<String, String> requestData,@PathVariable String cpf) {
         String username = requestData.get("username");
-        String cpf = requestData.get("cpf");
         String email = requestData.get("email");
         String sexo = requestData.get("sexo");
         String telefone = requestData.get("telefone");
@@ -172,7 +172,6 @@ public class UsuarioClienteController {
         if (!isValidSexoInput(sexo)) {
             return new ResponseEntity<>("Invalid sexo input", HttpStatus.BAD_REQUEST);
         }
-
         // Check if the provided email is in a valid format
         if (!isValidEmailFormat(email)) {
             return new ResponseEntity<>("Invalid email format", HttpStatus.BAD_REQUEST);

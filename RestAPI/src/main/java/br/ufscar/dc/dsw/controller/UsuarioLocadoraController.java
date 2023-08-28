@@ -16,6 +16,7 @@ import br.ufscar.dc.dsw.model.UsuarioGeral;
 import br.ufscar.dc.dsw.model.Locacoes;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -127,10 +128,9 @@ public class UsuarioLocadoraController {
     }
 
 
-    @PostMapping("/locadora/{cpf_cnpj}")
-    public ResponseEntity<String> updateLocadoraApi(@RequestBody Map<String, String> requestData) {
+    @PutMapping("/locadora/{cpf_cnpj}")
+    public ResponseEntity<String> updateLocadoraApi(@RequestBody Map<String, String> requestData,@PathVariable String cpf_cnpj) {
         String username = requestData.get("username");
-        String cpf_cnpj = requestData.get("cpfCnpj");
         String email = requestData.get("email");
         String cidade = requestData.get("cidade");
         String senha = requestData.get("senha");
