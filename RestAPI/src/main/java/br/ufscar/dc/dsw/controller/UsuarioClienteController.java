@@ -52,12 +52,13 @@ public class UsuarioClienteController {
     private final IUsuarioGeralService usuarioGeralService;
 
     private boolean isValidDataNascimentoFormat(String dataNascimento) {
-        // Define a regular expression pattern for date of birth validation (YYYY-MM-DD)
-        String dataNascimentoPattern = "\\d{4}-\\d{2}-\\d{2}";
+        // Define a regular expression pattern for valid date of birth (YYYY-MM-DD)
+        String dataNascimentoPattern = "^(?!0000)[0-9]{4}-(0[1-9]|1[0-2])-([0-2][1-9]|3[01])$";
 
         // Use the matches() method to check if the date of birth matches the pattern
         return dataNascimento.matches(dataNascimentoPattern);
     }
+
 
     private boolean isValidDataNascimento(String dataNascimento) {
         // Assuming that dates in the future are not allowed, you can implement a check here
@@ -101,7 +102,7 @@ public class UsuarioClienteController {
 
     private boolean isValidEmailFormat(String email) {
         // Define a regular expression pattern for email validation
-        String emailPattern = "^[A-Za-z0-9+_.-]+@(.+)$";
+        String emailPattern = "^[A-Za-z0-9+_.-]+@([A-Za-z0-9.-]+)\\.[A-Za-z]{2,}$";
 
         // Use the matches() method to check if the email matches the pattern
         return email.matches(emailPattern);

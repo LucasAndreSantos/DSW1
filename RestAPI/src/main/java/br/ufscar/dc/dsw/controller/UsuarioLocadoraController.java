@@ -38,7 +38,7 @@ public class UsuarioLocadoraController {
 
     private boolean isValidEmailFormat(String email) {
         // Define a regular expression pattern for email validation
-        String emailPattern = "^[A-Za-z0-9+_.-]+@(.+)$";
+        String emailPattern = "^[A-Za-z0-9+_.-]+@([A-Za-z0-9.-]+)\\.[A-Za-z]{2,}$";
 
         // Use the matches() method to check if the email matches the pattern
         return email.matches(emailPattern);
@@ -134,7 +134,7 @@ public class UsuarioLocadoraController {
         String email = requestData.get("email");
         String cidade = requestData.get("cidade");
         String senha = requestData.get("senha");
-        boolean insertSuccess = true;
+        boolean insertSuccess = false;
         int hierarquiafinal = 0;
 
         // Find the existing UsuarioGeral and UsuarioLocadora objects to update
@@ -171,7 +171,7 @@ public class UsuarioLocadoraController {
                 insertSuccess = true;
             }
             else{
-                insertSuccess = false;
+                return new ResponseEntity<>("CNPJ or Username alredy in use", HttpStatus.BAD_REQUEST);
             }    
         } else {
             // If the locadora does not exist, handle the error (e.g., show an error message)
@@ -192,7 +192,7 @@ public class UsuarioLocadoraController {
         String email = requestData.get("email");
         String cidade = requestData.get("cidade");
         String senha = requestData.get("senha");
-        boolean insertSuccess = true;
+        boolean insertSuccess = false;
         int hierarquiafinal = 0;
 
             // Check if the provided email is in a valid format
@@ -223,7 +223,7 @@ public class UsuarioLocadoraController {
             insertSuccess = true;
         }
         else{
-            insertSuccess = false;
+            return new ResponseEntity<>("Cnpj or Username already in use", HttpStatus.BAD_REQUEST);
         }
 
         if (insertSuccess) {
